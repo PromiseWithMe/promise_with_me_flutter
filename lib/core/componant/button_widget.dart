@@ -48,6 +48,7 @@ class ButtonWidget extends StatelessWidget {
           children: [
             Container(
               width: (width / 3) - 1,
+              alignment: AlignmentDirectional.centerStart,
               child: Padding(
                 padding: EdgeInsets.only(left: 20.w),
                 child: Builder(

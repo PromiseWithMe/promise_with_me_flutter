@@ -7,6 +7,8 @@ class SysColor {
 
   static final Color yellow = Color(0xFFFFE747);
 
+  static final Color red = Color(0xFFF5290A);
+
   static final Color gray500 = Color(0xFF242427);
   static final Color gray300 = Color(0xFF939599);
   static final Color gray100 = Color(0xFFDCDCDC);
