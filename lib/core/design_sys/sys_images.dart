@@ -1,4 +1,6 @@
 class SysImages {
+  static String logo = 'assets/images/Logo.svg';
+
   static String arrowLeft = 'assets/images/arrow_left.svg';
   static String arrowRight = 'assets/images/arrow_right.svg';
   static String calendar = 'assets/images/calendar.svg';
