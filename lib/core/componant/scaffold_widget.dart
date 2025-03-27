@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class MyScaffold extends StatelessWidget {
+class ScaffoldWidget extends StatelessWidget {
   final PreferredSizeWidget? appbar;
   final Widget? body, floatingActionButton, bottomSheet;
   final Color? backgroundColor;
   final EdgeInsetsGeometry? padding;
 
-  const MyScaffold({
+  const ScaffoldWidget({
     super.key,
     this.appbar,
     this.body,
@@ -20,7 +20,7 @@ class MyScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: backgroundColor ?? Colors.white,
       padding: padding,
       child: SafeArea(
         child: Padding(

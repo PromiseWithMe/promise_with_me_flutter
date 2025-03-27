@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:promise_with_me_flutter/core/design_sys/sys_color.dart';
 
 enum ImageType { png, pngNetwork }
 
@@ -10,27 +10,20 @@ class ImageWidget extends StatelessWidget {
   final Color? backgroundColor, color;
   final String image;
   final ImageType imageType;
+  final AlignmentGeometry alignment;
 
   const ImageWidget({
     super.key,
-    // image path
     required this.image,
-    // image type
     this.imageType = ImageType.png,
-    // image color
     this.color,
-    // image width
     this.imageWidth,
-    // image height
     this.imageHeight,
-    // container width
     this.width,
-    // container height
     this.height,
-    // container color
     this.backgroundColor,
-    // container radius.circular
     this.radiusCircular,
+    this.alignment = AlignmentDirectional.center,
   });
 
   @override
@@ -38,33 +31,35 @@ class ImageWidget extends StatelessWidget {
     return Container(
       width: width,
       height: height,
+      alignment: alignment,
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(radiusCircular ?? 0),
       ),
-      child: Center(
-        child: Builder(
-          builder: (context) {
-            switch (imageType) {
-              case ImageType.png:
-                return SvgPicture.asset(
-                  image,
-                  color: color,
-                  width: imageWidth,
-                  height: imageHeight,
-                  fit: BoxFit.cover,
-                );
-              case ImageType.pngNetwork:
-                return CachedNetworkImage(
-                  imageUrl: image,
-                  color: color,
-                  width: imageWidth,
-                  height: imageHeight,
-                  fit: BoxFit.cover,
-                );
-            }
-          },
-        ),
+      child: Builder(
+        builder: (context) {
+          switch (imageType) {
+            case ImageType.png:
+              return SvgPicture.asset(
+                image,
+                colorFilter: ColorFilter.mode(
+                  color ?? SysColor.black,
+                  BlendMode.srcIn,
+                ),
+                width: imageWidth,
+                height: imageHeight,
+                fit: BoxFit.cover,
+              );
+            case ImageType.pngNetwork:
+              return CachedNetworkImage(
+                imageUrl: image,
+                color: color,
+                width: imageWidth,
+                height: imageHeight,
+                fit: BoxFit.cover,
+              );
+          }
+        },
       ),
     );
   }
