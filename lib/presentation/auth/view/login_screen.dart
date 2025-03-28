@@ -18,6 +18,7 @@ import 'package:promise_with_me_flutter/presentation/auth/view/widget/auth_text_
 import 'package:promise_with_me_flutter/presentation/auth/view/widget/error_text.dart';
 import 'package:promise_with_me_flutter/presentation/auth/view_model/auth_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/auth/view_model/auth_event.dart';
+import 'package:promise_with_me_flutter/presentation/page_manager/view/page_manager.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -62,14 +63,23 @@ class _LoginScreenState extends State<LoginScreen> {
     RegExp regex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
     final emailErrorState = !regex.hasMatch(_emailController.text);
 
-    return BlocListener<AuthBloc, BlocState>(
-      listenWhen: (_, state) => state.blocState == BlocStateEnum.error,
-      listener: (context, state) {
-        showTopSnackBar(
-          Overlay.of(context),
-          ToastWidget(title: "아이디 또는 비밀번호가 일치하지 않습니다."),
-        );
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocListener<AuthBloc, BlocState>(
+          listenWhen: (_, state) => state.blocState == BlocStateEnum.error,
+          listener: (context, state) {
+            showTopSnackBar(
+              Overlay.of(context),
+              ToastWidget(title: "아이디 또는 비밀번호가 일치하지 않습니다."),
+            );
+          },
+        ),
+
+        BlocListener<AuthBloc, BlocState>(
+          listenWhen: (_, state) => state.blocState == BlocStateEnum.loaded,
+          listener: (context, _) => Navigators.go(context, PageManager()),
+        ),
+      ],
       child: ScaffoldWidget(
         /// AppBar
         appbar: AppBarWidget(

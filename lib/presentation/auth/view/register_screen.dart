@@ -20,6 +20,7 @@ import '../../../core/design_sys/sys_color.dart';
 import '../../../core/design_sys/sys_images.dart';
 import '../../../core/design_sys/sys_text.dart';
 import '../../../core/util/navigators.dart';
+import '../../page_manager/view/page_manager.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -83,14 +84,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _passwordCompareController.text.isEmpty ||
         _passwordController.text != _passwordCompareController.text;
 
-    return BlocListener<AuthBloc, BlocState>(
-      listenWhen: (_, state) => state.blocState == BlocStateEnum.error,
-      listener: (context, state) {
-        showTopSnackBar(
-          Overlay.of(context),
-          ToastWidget(title: "REGISTER ERROR"),
-        );
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocListener<AuthBloc, BlocState>(
+          listenWhen: (_, state) => state.blocState == BlocStateEnum.error,
+          listener: (context, state) {
+            showTopSnackBar(
+              Overlay.of(context),
+              ToastWidget(title: "REGISTER ERROR"),
+            );
+          },
+        ),
+
+        BlocListener<AuthBloc, BlocState>(
+          listenWhen: (_, state) => state.blocState == BlocStateEnum.loaded,
+          listener: (context, _) => Navigators.go(context, PageManager()),
+        ),
+      ],
       child: ScaffoldWidget(
         /// AppBar
         appbar: AppBarWidget(
