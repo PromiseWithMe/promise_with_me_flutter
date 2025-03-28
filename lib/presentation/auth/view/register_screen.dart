@@ -9,6 +9,7 @@ import 'package:promise_with_me_flutter/data/dto/auth/request/register_request.d
 import 'package:promise_with_me_flutter/presentation/auth/view/login_screen.dart';
 import 'package:promise_with_me_flutter/presentation/auth/view/widget/auth_rich_text_widget.dart';
 import 'package:promise_with_me_flutter/presentation/auth/view/widget/auth_text_field_widget.dart';
+import 'package:promise_with_me_flutter/presentation/auth/view/widget/error_text.dart';
 import 'package:promise_with_me_flutter/presentation/auth/view_model/auth_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/auth/view_model/auth_event.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -41,10 +42,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     super.initState();
-    _nicknameController = TextEditingController();
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
-    _passwordCompareController = TextEditingController();
+    _nicknameController =
+        TextEditingController()..addListener(() => setState(() {}));
+    _emailController =
+        TextEditingController()..addListener(() => setState(() {}));
+    _passwordController =
+        TextEditingController()..addListener(() => setState(() {}));
+    _passwordCompareController =
+        TextEditingController()..addListener(() => setState(() {}));
 
     _nicknameNode = FocusNode();
     _emailNode = FocusNode();
@@ -69,6 +74,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     BlocState authState = context.watch<AuthBloc>().state;
+
+    RegExp regex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
+    final nicknameErrorState = _nicknameController.text.isEmpty;
+    final emailErrorState = !regex.hasMatch(_emailController.text);
+    final passwordErrorState =
+        _passwordController.text.isEmpty ||
+        _passwordCompareController.text.isEmpty ||
+        _passwordController.text != _passwordCompareController.text;
 
     return BlocListener<AuthBloc, BlocState>(
       listenWhen: (_, state) => state.blocState == BlocStateEnum.error,
@@ -104,6 +117,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     controller: _nicknameController,
                     node: _nicknameNode,
                     hintText: '닉네임',
+                    errorWidget: errorText(
+                      errorText: "닉네임은 필수 사항입니다.",
+                      state: nicknameErrorState,
+                    ),
                   ),
 
                   SizedBox(height: 20.h),
@@ -113,6 +130,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     controller: _emailController,
                     node: _emailNode,
                     hintText: '이메일',
+                    errorWidget: errorText(
+                      errorText: '이메일 형식으로 입력해주세요.',
+                      state: emailErrorState,
+                    ),
                   ),
 
                   SizedBox(height: 20.h),
@@ -122,6 +143,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     controller: _passwordController,
                     node: _passwordNode,
                     hintText: '비밀번호',
+                    errorWidget: errorText(
+                      errorText: '비밀번호 재입력과 일치하지 않습니다.',
+                      state: passwordErrorState,
+                    ),
                   ),
 
                   SizedBox(height: 20.h),
@@ -131,6 +156,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     controller: _passwordCompareController,
                     node: _passwordCompareNode,
                     hintText: '비밀번호 재입력',
+                    errorWidget: errorText(
+                      errorText: '비밀번호와 일치하지 않습니다.',
+                      state: passwordErrorState,
+                    ),
                   ),
 
                   SizedBox(height: 40.h),
@@ -140,8 +169,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     isLoading: authState.blocState == BlocStateEnum.loading,
                     loadingIndicatorColor: SysColor.white,
                     onTap: () {
-                      if (_passwordController.text ==
-                          _passwordCompareController.text) {
+                      if (!nicknameErrorState &&
+                          !emailErrorState &&
+                          !passwordErrorState) {
                         context.read<AuthBloc>().add(
                           RegisterEvent(
                             registerRequest: RegisterRequest(
@@ -166,7 +196,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigators.pushReplacement(context, RegisterScreen());
+                  Navigators.pushReplacement(context, LoginScreen());
                 },
                 child: AuthRichTextWidget(
                   firstText: "나와의 약속을 사용했었다면?",

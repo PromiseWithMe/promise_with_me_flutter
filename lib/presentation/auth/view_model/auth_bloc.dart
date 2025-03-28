@@ -1,3 +1,4 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:promise_with_me_flutter/core/bloc/bloc_state.dart';
@@ -16,8 +17,8 @@ class AuthBloc extends Bloc<AuthEvent, BlocState> {
   }) : _loginUseCase = loginUseCase,
        _registerUseCase = registerUseCase,
        super(Empty()) {
-    on<LoginEvent>(loginEventHandler);
-    on<RegisterEvent>(registerEventHandler);
+    on<LoginEvent>(loginEventHandler, transformer: droppable());
+    on<RegisterEvent>(registerEventHandler, transformer: droppable());
   }
 
   void loginEventHandler(LoginEvent event, Emitter<BlocState> emit) async {

@@ -33,7 +33,7 @@ class ButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: onTap,
+      onTap: isLoading == false ? onTap : null,
       child: Container(
         width: width,
         height: height,

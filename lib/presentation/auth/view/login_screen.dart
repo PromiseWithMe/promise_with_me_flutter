@@ -15,6 +15,7 @@ import 'package:promise_with_me_flutter/data/dto/auth/request/login_request.dart
 import 'package:promise_with_me_flutter/presentation/auth/view/register_screen.dart';
 import 'package:promise_with_me_flutter/presentation/auth/view/widget/auth_rich_text_widget.dart';
 import 'package:promise_with_me_flutter/presentation/auth/view/widget/auth_text_field_widget.dart';
+import 'package:promise_with_me_flutter/presentation/auth/view/widget/error_text.dart';
 import 'package:promise_with_me_flutter/presentation/auth/view_model/auth_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/auth/view_model/auth_event.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -36,7 +37,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _emailController = TextEditingController();
+    _emailController =
+        TextEditingController()..addListener(() => setState(() {}));
     _passwordController = TextEditingController();
 
     _emailNode = FocusNode();
@@ -57,10 +59,16 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     BlocState authState = context.watch<AuthBloc>().state;
 
+    RegExp regex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
+    final emailErrorState = !regex.hasMatch(_emailController.text);
+
     return BlocListener<AuthBloc, BlocState>(
       listenWhen: (_, state) => state.blocState == BlocStateEnum.error,
       listener: (context, state) {
-        showTopSnackBar(Overlay.of(context), ToastWidget(title: "LOGIN ERROR"));
+        showTopSnackBar(
+          Overlay.of(context),
+          ToastWidget(title: "아이디 또는 비밀번호가 일치하지 않습니다."),
+        );
       },
       child: ScaffoldWidget(
         /// AppBar
@@ -88,6 +96,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: _emailController,
                     node: _emailNode,
                     hintText: '이메일',
+                    errorWidget: errorText(
+                      errorText: '이메일 형식으로 입력해주세요.',
+                      state: emailErrorState,
+                    ),
                   ),
 
                   SizedBox(height: 20.h),
@@ -97,6 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: _passwordController,
                     node: _passwordNode,
                     hintText: '비밀번호',
+                    isObscure: true,
                   ),
 
                   SizedBox(height: 40.h),
@@ -106,14 +119,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     isLoading: authState.blocState == BlocStateEnum.loading,
                     loadingIndicatorColor: SysColor.white,
                     onTap: () {
-                      context.read<AuthBloc>().add(
-                        LoginEvent(
-                          loginRequest: LoginRequest(
-                            email: _emailController.text,
-                            password: _passwordController.text,
+                      if (!emailErrorState) {
+                        context.read<AuthBloc>().add(
+                          LoginEvent(
+                            loginRequest: LoginRequest(
+                              email: _emailController.text,
+                              password: _passwordController.text,
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                      }
                     },
                     color: SysColor.green200,
                     borderRadius: 8.r,

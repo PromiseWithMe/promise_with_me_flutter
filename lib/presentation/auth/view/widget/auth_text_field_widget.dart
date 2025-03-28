@@ -7,14 +7,14 @@ class AuthTextFieldWidget extends StatelessWidget {
   final FocusNode node;
   final String hintText;
   final Widget? errorWidget;
-  final bool? isObscure;
+  final bool isObscure;
 
   const AuthTextFieldWidget({
     super.key,
     required this.controller,
     required this.node,
     required this.hintText,
-    this.isObscure,
+    this.isObscure = false,
     this.errorWidget,
   });
 
@@ -22,14 +22,16 @@ class AuthTextFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      obscureText: isObscure ?? false,
+      obscureText: isObscure,
       focusNode: node,
       onTapOutside: (_) => node.unfocus(),
       style: TextStyle(
         fontFamily: "jua",
         fontSize: 20.sp,
         height: 24.sp / 20.sp,
+        color: SysColor.black,
       ),
+      obscuringCharacter: '⚇',
       cursorHeight: 20.h,
       cursorColor: SysColor.black,
       cursorErrorColor: SysColor.black,
