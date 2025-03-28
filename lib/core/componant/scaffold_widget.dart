@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ScaffoldWidget extends StatelessWidget {
   final PreferredSizeWidget? appbar;
-  final Widget? body, floatingActionButton, bottomSheet;
+  final Widget? body, floatingActionButton, bottomSheet, bottomNavigationBar;
   final Color? backgroundColor;
   final EdgeInsetsGeometry? padding;
 
@@ -15,6 +15,7 @@ class ScaffoldWidget extends StatelessWidget {
     this.bottomSheet,
     this.backgroundColor,
     this.padding,
+    this.bottomNavigationBar,
   });
 
   @override
@@ -31,6 +32,7 @@ class ScaffoldWidget extends StatelessWidget {
             body: body,
             floatingActionButton: floatingActionButton,
             bottomSheet: bottomSheet,
+            bottomNavigationBar: bottomNavigationBar,
           ),
         ),
       ),
