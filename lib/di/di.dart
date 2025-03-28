@@ -5,6 +5,7 @@ import 'package:promise_with_me_flutter/domain/repository/auth_repository.dart';
 import 'package:promise_with_me_flutter/domain/use_case/auth/login_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/auth/register_use_case.dart';
 import 'package:promise_with_me_flutter/presentation/auth/view_model/auth_bloc.dart';
+import 'package:promise_with_me_flutter/presentation/page_manager/view_model/page_index_cubit.dart';
 
 Future<List<BlocProvider>> di() async {
   // auth
@@ -18,6 +19,10 @@ Future<List<BlocProvider>> di() async {
   );
 
   return [
+    /// cubit
+    BlocProvider<PageIndexCubit>(create: (context) => PageIndexCubit()),
+
+    /// bloc
     BlocProvider<AuthBloc>(
       create: (context) {
         return AuthBloc(
