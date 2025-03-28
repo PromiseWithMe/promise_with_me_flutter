@@ -1,10 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:promise_with_me_flutter/data/data_source/auth_data_source.dart';
+import 'package:promise_with_me_flutter/data/data_source/promise_data_source.dart';
 import 'package:promise_with_me_flutter/data/repository/auth_repository_impl.dart';
+import 'package:promise_with_me_flutter/data/repository/promise_repository_impl.dart';
 import 'package:promise_with_me_flutter/domain/repository/auth_repository.dart';
+import 'package:promise_with_me_flutter/domain/repository/promise_repository.dart';
 import 'package:promise_with_me_flutter/domain/use_case/auth/login_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/auth/register_use_case.dart';
+import 'package:promise_with_me_flutter/domain/use_case/promise/get_promises_use_case.dart';
 import 'package:promise_with_me_flutter/presentation/auth/view_model/auth_bloc.dart';
+import 'package:promise_with_me_flutter/presentation/home/view_model/promise_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/page_manager/view_model/page_index_cubit.dart';
 
 Future<List<BlocProvider>> di() async {
@@ -18,6 +23,15 @@ Future<List<BlocProvider>> di() async {
     authRepository: authRepository,
   );
 
+  // promise
+  PromiseDataSource promiseDataSource = PromiseDataSource();
+  PromiseRepository promiseRepository = PromiseRepositoryImpl(
+    promiseDataSource: promiseDataSource,
+  );
+  GetPromisesUseCase getPromisesUseCase = GetPromisesUseCase(
+    promiseRepository: promiseRepository,
+  );
+
   return [
     /// cubit
     BlocProvider<PageIndexCubit>(create: (context) => PageIndexCubit()),
@@ -29,6 +43,12 @@ Future<List<BlocProvider>> di() async {
           loginUseCase: loginUseCase,
           registerUseCase: registerUseCase,
         );
+      },
+    ),
+
+    BlocProvider<PromiseBloc>(
+      create: (context) {
+        return PromiseBloc(getPromisesUseCase: getPromisesUseCase);
       },
     ),
   ];

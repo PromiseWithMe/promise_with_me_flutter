@@ -1,0 +1,8 @@
+import 'package:promise_with_me_flutter/data/dto/promise/get_promises_request.dart';
+import 'package:promise_with_me_flutter/domain/entity/promise/promises_entity.dart';
+
+abstract class PromiseRepository {
+  Future<PromisesEntity> getPromises({
+    required GetPromisesRequest getPromisesRequest,
+  });
+}
