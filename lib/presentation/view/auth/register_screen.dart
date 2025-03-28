@@ -6,12 +6,11 @@ import 'package:promise_with_me_flutter/core/componant/app_bar_widget.dart';
 import 'package:promise_with_me_flutter/core/componant/scaffold_widget.dart';
 import 'package:promise_with_me_flutter/core/componant/toast_widget.dart';
 import 'package:promise_with_me_flutter/data/dto/auth/request/register_request.dart';
-import 'package:promise_with_me_flutter/presentation/auth/view/login_screen.dart';
-import 'package:promise_with_me_flutter/presentation/auth/view/widget/auth_rich_text_widget.dart';
-import 'package:promise_with_me_flutter/presentation/auth/view/widget/auth_text_field_widget.dart';
-import 'package:promise_with_me_flutter/presentation/auth/view/widget/error_text.dart';
-import 'package:promise_with_me_flutter/presentation/auth/view_model/auth_bloc.dart';
-import 'package:promise_with_me_flutter/presentation/auth/view_model/auth_event.dart';
+import 'package:promise_with_me_flutter/presentation/view/auth/login_screen.dart';
+import 'package:promise_with_me_flutter/presentation/view/auth/widget/auth_rich_text_widget.dart';
+import 'package:promise_with_me_flutter/presentation/view/auth/widget/auth_text_field_widget.dart';
+import 'package:promise_with_me_flutter/presentation/view/auth/widget/error_text.dart';
+import 'package:promise_with_me_flutter/presentation/view_model/auth/auth_bloc.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../core/componant/button_widget.dart';
@@ -20,7 +19,8 @@ import '../../../core/design_sys/sys_color.dart';
 import '../../../core/design_sys/sys_images.dart';
 import '../../../core/design_sys/sys_text.dart';
 import '../../../core/util/navigators.dart';
-import '../../page_manager/view/page_manager.dart';
+import '../../view_model/auth/auth_event.dart';
+import '../page_manager/page_manager.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});

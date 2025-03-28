@@ -4,12 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:promise_with_me_flutter/core/componant/scaffold_widget.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_color.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_images.dart';
-import 'package:promise_with_me_flutter/presentation/home/view/widget/home_app_bar.dart';
-import 'package:promise_with_me_flutter/presentation/page_manager/view/widget/bottom_navigation_item.dart';
-import 'package:promise_with_me_flutter/presentation/page_manager/view_model/page_index_cubit.dart';
+import 'package:promise_with_me_flutter/presentation/view/page_manager/widget/bottom_navigation_item.dart';
+import 'package:promise_with_me_flutter/presentation/view_model/page_manager/page_index_cubit.dart';
 
 import '../../../core/componant/app_bar_widget.dart';
-import '../../home/view/home_screen.dart';
+import '../home/home_screen.dart';
+import '../home/widget/home_app_bar.dart';
 
 class PageManager extends StatefulWidget {
   const PageManager({super.key});

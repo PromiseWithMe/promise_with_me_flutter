@@ -12,14 +12,15 @@ import 'package:promise_with_me_flutter/core/design_sys/sys_images.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_text.dart';
 import 'package:promise_with_me_flutter/core/util/navigators.dart';
 import 'package:promise_with_me_flutter/data/dto/auth/request/login_request.dart';
-import 'package:promise_with_me_flutter/presentation/auth/view/register_screen.dart';
-import 'package:promise_with_me_flutter/presentation/auth/view/widget/auth_rich_text_widget.dart';
-import 'package:promise_with_me_flutter/presentation/auth/view/widget/auth_text_field_widget.dart';
-import 'package:promise_with_me_flutter/presentation/auth/view/widget/error_text.dart';
-import 'package:promise_with_me_flutter/presentation/auth/view_model/auth_bloc.dart';
-import 'package:promise_with_me_flutter/presentation/auth/view_model/auth_event.dart';
-import 'package:promise_with_me_flutter/presentation/page_manager/view/page_manager.dart';
+import 'package:promise_with_me_flutter/presentation/view/auth/register_screen.dart';
+import 'package:promise_with_me_flutter/presentation/view/auth/widget/auth_rich_text_widget.dart';
+import 'package:promise_with_me_flutter/presentation/view/auth/widget/auth_text_field_widget.dart';
+import 'package:promise_with_me_flutter/presentation/view/auth/widget/error_text.dart';
+import 'package:promise_with_me_flutter/presentation/view_model/auth/auth_bloc.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
+import '../../view_model/auth/auth_event.dart';
+import '../page_manager/page_manager.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

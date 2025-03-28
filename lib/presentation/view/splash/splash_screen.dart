@@ -4,7 +4,8 @@ import 'package:promise_with_me_flutter/core/componant/scaffold_widget.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_color.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_images.dart';
 import 'package:promise_with_me_flutter/core/util/navigators.dart';
-import 'package:promise_with_me_flutter/presentation/on_boarding/on_boarding_screen.dart';
+
+import '../page_manager/page_manager.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -29,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
         children: [
           GestureDetector(
             onTap: () {
-              Navigators.teleporting(context, OnBoardingScreen());
+              Navigators.teleporting(context, PageManager());
             },
             child: ImageWidget(image: SysImages.logo, color: SysColor.white),
           ),

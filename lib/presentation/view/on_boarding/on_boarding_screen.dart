@@ -7,8 +7,9 @@ import 'package:promise_with_me_flutter/core/design_sys/sys_color.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_images.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_text.dart';
 import 'package:promise_with_me_flutter/core/util/navigators.dart';
-import 'package:promise_with_me_flutter/presentation/auth/view/register_screen.dart';
-import '../auth/view/login_screen.dart';
+
+import '../auth/login_screen.dart';
+import '../auth/register_screen.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({super.key});

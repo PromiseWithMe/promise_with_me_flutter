@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:promise_with_me_flutter/core/bloc/bloc_state.dart';
 import 'package:promise_with_me_flutter/domain/entity/promise/promises_entity.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/get_promises_use_case.dart';
-import 'package:promise_with_me_flutter/presentation/home/view_model/promise_event.dart';
+import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_event.dart';
 
 class PromiseBloc extends Bloc<PromiseEvent, BlocState<PromisesEntity>> {
   final GetPromisesUseCase _getPromisesUseCase;

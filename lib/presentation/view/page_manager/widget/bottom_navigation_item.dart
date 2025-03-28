@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_color.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_text.dart';
-import 'package:promise_with_me_flutter/presentation/page_manager/view_model/page_index_cubit.dart';
+import 'package:promise_with_me_flutter/presentation/view_model/page_manager/page_index_cubit.dart';
 
 import '../../../../core/componant/image_widget.dart';
 

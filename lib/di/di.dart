@@ -8,9 +8,9 @@ import 'package:promise_with_me_flutter/domain/repository/promise_repository.dar
 import 'package:promise_with_me_flutter/domain/use_case/auth/login_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/auth/register_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/get_promises_use_case.dart';
-import 'package:promise_with_me_flutter/presentation/auth/view_model/auth_bloc.dart';
-import 'package:promise_with_me_flutter/presentation/home/view_model/promise_bloc.dart';
-import 'package:promise_with_me_flutter/presentation/page_manager/view_model/page_index_cubit.dart';
+import 'package:promise_with_me_flutter/presentation/view_model/auth/auth_bloc.dart';
+import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_bloc.dart';
+import 'package:promise_with_me_flutter/presentation/view_model/page_manager/page_index_cubit.dart';
 
 Future<List<BlocProvider>> di() async {
   // auth

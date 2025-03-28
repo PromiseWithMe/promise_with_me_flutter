@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:promise_with_me_flutter/presentation/splash/splash_screen.dart';
+import 'package:promise_with_me_flutter/presentation/view/splash/splash_screen.dart';
 
 import 'di/di.dart';
 

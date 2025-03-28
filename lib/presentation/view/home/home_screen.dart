@@ -6,9 +6,10 @@ import 'package:promise_with_me_flutter/core/design_sys/sys_color.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_text.dart';
 import 'package:promise_with_me_flutter/data/dto/promise/get_promises_request.dart';
 import 'package:promise_with_me_flutter/domain/entity/promise/promises_entity.dart';
-import 'package:promise_with_me_flutter/presentation/home/view/widget/promise_widget.dart';
-import 'package:promise_with_me_flutter/presentation/home/view_model/promise_bloc.dart';
-import 'package:promise_with_me_flutter/presentation/home/view_model/promise_event.dart';
+import 'package:promise_with_me_flutter/presentation/view/home/widget/promise_widget.dart';
+import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_bloc.dart';
+
+import '../../view_model/promise/promise_event.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
