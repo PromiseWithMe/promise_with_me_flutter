@@ -3,6 +3,7 @@ import 'package:promise_with_me_flutter/data/data_source/auth_data_source.dart';
 import 'package:promise_with_me_flutter/data/repository/auth_repository_impl.dart';
 import 'package:promise_with_me_flutter/domain/repository/auth_repository.dart';
 import 'package:promise_with_me_flutter/domain/use_case/auth/login_use_case.dart';
+import 'package:promise_with_me_flutter/domain/use_case/auth/register_use_case.dart';
 import 'package:promise_with_me_flutter/presentation/auth/view_model/auth_bloc.dart';
 
 Future<List<BlocProvider>> di() async {
@@ -12,10 +13,18 @@ Future<List<BlocProvider>> di() async {
     authDataSource: authDataSource,
   );
   LoginUseCase loginUseCase = LoginUseCase(authRepository: authRepository);
+  RegisterUseCase registerUseCase = RegisterUseCase(
+    authRepository: authRepository,
+  );
 
   return [
     BlocProvider<AuthBloc>(
-      create: (context) => AuthBloc(loginUseCase: loginUseCase),
+      create: (context) {
+        return AuthBloc(
+          loginUseCase: loginUseCase,
+          registerUseCase: registerUseCase,
+        );
+      },
     ),
   ];
 }

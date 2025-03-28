@@ -127,7 +127,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
               GestureDetector(
-                onTap: () => Navigators.go(context, RegisterScreen()),
+                onTap: () {
+                  Navigators.pushReplacement(context, RegisterScreen());
+                },
                 child: AuthRichTextWidget(
                   firstText: "나와의 약속이 처음이라면?",
                   secondText: "회원가입",

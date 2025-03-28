@@ -1,4 +1,5 @@
 import 'package:promise_with_me_flutter/data/data_source/auth_data_source.dart';
+import 'package:promise_with_me_flutter/data/dto/auth/request/register_request.dart';
 import 'package:promise_with_me_flutter/domain/entity/auth/token_response_entity.dart';
 import 'package:promise_with_me_flutter/domain/repository/auth_repository.dart';
 
@@ -15,5 +16,12 @@ class AuthRepositoryImpl implements AuthRepository {
     required LoginRequest loginRequest,
   }) async {
     return await _authDataSource.login(loginRequest: loginRequest);
+  }
+
+  @override
+  Future<TokenResponseEntity> register({
+    required RegisterRequest registerRequest,
+  }) async {
+    return await _authDataSource.register(registerRequest: registerRequest);
   }
 }
