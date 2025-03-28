@@ -42,10 +42,10 @@ class ImageWidget extends StatelessWidget {
             case ImageType.png:
               return SvgPicture.asset(
                 image,
-                colorFilter: ColorFilter.mode(
-                  color ?? SysColor.black,
-                  BlendMode.srcIn,
-                ),
+                colorFilter:
+                    color != null
+                        ? ColorFilter.mode(color!, BlendMode.srcIn)
+                        : null,
                 width: imageWidth,
                 height: imageHeight,
                 fit: BoxFit.cover,
