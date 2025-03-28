@@ -10,5 +10,5 @@ class RegisterUseCase {
 
   Future<TokenResponseEntity> execute({
     required RegisterRequest registerRequest,
-  }) => _authRepository.register(registerRequest: registerRequest);
+  }) async => await _authRepository.register(registerRequest: registerRequest);
 }

@@ -9,6 +9,7 @@ class LoginUseCase {
   const LoginUseCase({required AuthRepository authRepository})
     : _authRepository = authRepository;
 
-  Future<TokenResponseEntity> execute({required LoginRequest loginRequest}) =>
-      _authRepository.login(loginRequest: loginRequest);
+  Future<TokenResponseEntity> execute({
+    required LoginRequest loginRequest,
+  }) async => await _authRepository.login(loginRequest: loginRequest);
 }
