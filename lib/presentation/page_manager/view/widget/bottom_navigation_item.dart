@@ -49,6 +49,7 @@ class BottomNavigationItem extends StatelessWidget {
                 image: isSelected ? selectedImage : image,
                 width: 32.w,
                 height: 32.h,
+                color: isSelected ? SysColor.green200 : SysColor.gray300,
               ),
               SysText.bodyMini(
                 text: label,
