@@ -7,6 +7,8 @@ class AuthDataSource {
   Future<TokenResponseEntity> login({
     required LoginRequest loginRequest,
   }) async {
+    await Future.delayed(const Duration(seconds: 3), () {});
+
     return TokenResponse.fromJson({
       "accessToken": "eyAccessToken",
       "refreshToken": "eyRefreshToken",
