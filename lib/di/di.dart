@@ -7,6 +7,7 @@ import 'package:promise_with_me_flutter/domain/repository/auth_repository.dart';
 import 'package:promise_with_me_flutter/domain/repository/promise_repository.dart';
 import 'package:promise_with_me_flutter/domain/use_case/auth/login_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/auth/register_use_case.dart';
+import 'package:promise_with_me_flutter/domain/use_case/promise/create_promise_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/get_promises_use_case.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/auth/auth_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_bloc.dart';
@@ -31,6 +32,9 @@ Future<List<BlocProvider>> di() async {
   GetPromisesUseCase getPromisesUseCase = GetPromisesUseCase(
     promiseRepository: promiseRepository,
   );
+  CreatePromiseUseCase createPromiseUseCase = CreatePromiseUseCase(
+    promiseRepository: promiseRepository,
+  );
 
   return [
     /// cubit
@@ -48,7 +52,10 @@ Future<List<BlocProvider>> di() async {
 
     BlocProvider<PromiseBloc>(
       create: (context) {
-        return PromiseBloc(getPromisesUseCase: getPromisesUseCase);
+        return PromiseBloc(
+          getPromisesUseCase: getPromisesUseCase,
+          createPromiseUseCase: createPromiseUseCase,
+        );
       },
     ),
   ];
