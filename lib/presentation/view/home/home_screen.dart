@@ -4,30 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:promise_with_me_flutter/core/bloc/bloc_state.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_color.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_text.dart';
-import 'package:promise_with_me_flutter/data/dto/promise/get_promises_request.dart';
 import 'package:promise_with_me_flutter/domain/entity/promise/promises_entity.dart';
 import 'package:promise_with_me_flutter/presentation/view/home/widget/promise_widget.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_bloc.dart';
 
-import '../../view_model/promise/promise_event.dart';
-
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<PromiseBloc>().add(
-      GetPromisesEvent(
-        getPromisesRequest: GetPromisesRequest(page: 0, dayOfWeek: []),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

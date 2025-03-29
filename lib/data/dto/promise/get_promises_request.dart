@@ -6,7 +6,7 @@ class GetPromisesRequest {
 
   const GetPromisesRequest({required this.page, required this.dayOfWeek});
 
-  DioGetReqModel toResponse() {
+  Future<DioGetReqModel> toDioRequest() async {
     return DioGetReqModel(
       queryParameters: {"page": page},
       data: {"dayOfWeek": dayOfWeek},

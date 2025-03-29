@@ -26,7 +26,14 @@ class PromiseBloc extends Bloc<PromiseEvent, BlocState<PromisesEntity>> {
       );
       emit(Loaded(data: response));
     } on DioException catch (error) {
-      emit(Error(exception: error));
+      if (error.requestOptions.extra['retry'] == true) {
+        final PromisesEntity response = await _getPromisesUseCase.execute(
+          getPromisesRequest: event.getPromisesRequest,
+        );
+        emit(Loaded(data: response));
+      } else {
+        emit(Error(exception: error));
+      }
     }
   }
 }

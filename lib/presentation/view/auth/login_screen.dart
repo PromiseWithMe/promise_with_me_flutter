@@ -16,11 +16,11 @@ import 'package:promise_with_me_flutter/presentation/view/auth/register_screen.d
 import 'package:promise_with_me_flutter/presentation/view/auth/widget/auth_rich_text_widget.dart';
 import 'package:promise_with_me_flutter/presentation/view/auth/widget/auth_text_field_widget.dart';
 import 'package:promise_with_me_flutter/presentation/view/auth/widget/error_text.dart';
+import 'package:promise_with_me_flutter/presentation/view/splash/splash_screen.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/auth/auth_bloc.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../view_model/auth/auth_event.dart';
-import '../page_manager/page_manager.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
         BlocListener<AuthBloc, BlocState>(
           listenWhen: (_, state) => state.blocState == BlocStateEnum.loaded,
-          listener: (context, _) => Navigators.go(context, PageManager()),
+          listener: (context, _) => Navigators.go(context, SplashScreen()),
         ),
       ],
       child: ScaffoldWidget(
