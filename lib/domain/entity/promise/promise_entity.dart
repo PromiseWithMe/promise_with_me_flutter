@@ -1,7 +1,7 @@
 class PromiseEntity {
   final String id;
   final String title;
-  final List<String>? dayOfWeek;
+  final List<String> dayOfWeek;
   final int promiseState;
   final DateTime createdAt;
 
@@ -27,11 +27,11 @@ class PromiseEntity {
   }
 
   String get getDayOfWeek {
-    if (dayOfWeek == null) {
+    if (dayOfWeek.isEmpty) {
       return '오늘!!';
     }
 
-    return dayOfWeek!
+    return dayOfWeek
         .map((e) {
           switch (e) {
             case 'SUN':
@@ -59,7 +59,7 @@ class PromiseEntity {
     return PromiseEntity(
       id: json['id'],
       title: json['title'],
-      dayOfWeek: json['dayOfWeek'],
+      dayOfWeek: List<String>.from(json['dayOfWeek']),
       promiseState: json['promiseState'],
       createdAt: DateTime.parse(json['createdAt']),
     );

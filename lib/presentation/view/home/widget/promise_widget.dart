@@ -32,8 +32,8 @@ class PromiseWidget extends StatelessWidget {
               SizedBox(height: 4.h),
 
               SysText.bodyTiny(
-                text: promise.getDayOfWeek,
-                color: SysColor.white,
+                text: "날짜 | ${promise.getDayOfWeek}",
+                color: SysColor.green50,
               ),
             ],
           ),
