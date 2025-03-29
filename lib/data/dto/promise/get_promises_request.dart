@@ -1,4 +1,4 @@
-import '../../../core/util/dio_get_model.dart';
+import '../../../core/util/dio_request_entity.dart';
 
 class GetPromisesRequest {
   final int page;
@@ -6,8 +6,8 @@ class GetPromisesRequest {
 
   const GetPromisesRequest({required this.page, required this.dayOfWeek});
 
-  Future<DioGetReqModel> toDioRequest() async {
-    return DioGetReqModel(
+  Future<DioRequestEntity> toRequest() async {
+    return DioRequestEntity(
       queryParameters: {"page": page},
       data: {"dayOfWeek": dayOfWeek},
     );

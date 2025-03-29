@@ -11,7 +11,7 @@ import 'package:promise_with_me_flutter/core/design_sys/sys_color.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_images.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_text.dart';
 import 'package:promise_with_me_flutter/core/util/navigators.dart';
-import 'package:promise_with_me_flutter/data/dto/auth/request/login_request.dart';
+import 'package:promise_with_me_flutter/data/dto/auth/login_request.dart';
 import 'package:promise_with_me_flutter/presentation/view/auth/register_screen.dart';
 import 'package:promise_with_me_flutter/presentation/view/auth/widget/auth_rich_text_widget.dart';
 import 'package:promise_with_me_flutter/presentation/view/auth/widget/auth_text_field_widget.dart';

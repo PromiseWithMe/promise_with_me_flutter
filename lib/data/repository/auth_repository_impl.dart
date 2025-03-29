@@ -1,9 +1,9 @@
 import 'package:promise_with_me_flutter/data/data_source/auth_data_source.dart';
-import 'package:promise_with_me_flutter/data/dto/auth/request/register_request.dart';
+import 'package:promise_with_me_flutter/data/dto/auth/register_request.dart';
 import 'package:promise_with_me_flutter/domain/entity/auth/token_response_entity.dart';
 import 'package:promise_with_me_flutter/domain/repository/auth_repository.dart';
 
-import '../dto/auth/request/login_request.dart';
+import '../dto/auth/login_request.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthDataSource _authDataSource;

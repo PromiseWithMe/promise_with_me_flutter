@@ -9,7 +9,7 @@ class PromiseDataSource {
     required GetPromisesRequest getPromisesRequest,
   }) async {
     try {
-      final request = await getPromisesRequest.toDioRequest();
+      final request = await getPromisesRequest.toRequest();
 
       final response = await dio.get(
         '/promise',
@@ -27,7 +27,7 @@ class PromiseDataSource {
     required CreatePromiseRequest createPromiseRequest,
   }) async {
     try {
-      final request = await createPromiseRequest.toDioRequest();
+      final request = await createPromiseRequest.toRequest();
 
       await dio.post('/promise', data: request.data);
     } catch (err) {
