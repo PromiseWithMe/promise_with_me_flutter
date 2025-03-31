@@ -2,7 +2,7 @@ import 'package:promise_with_me_flutter/data/dto/promise/create_promise_request.
 import 'package:promise_with_me_flutter/data/dto/promise/get_promises_request.dart';
 import 'package:promise_with_me_flutter/domain/entity/promise/promises_entity.dart';
 
-import '../../core/util/dio.dart';
+import '../../../core/util/dio.dart';
 
 class PromiseDataSource {
   Future<PromisesEntity> getPromises({

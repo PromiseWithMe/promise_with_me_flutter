@@ -1,10 +1,10 @@
-import 'package:promise_with_me_flutter/data/data_source/promise_data_source.dart';
 import 'package:promise_with_me_flutter/data/dto/promise/create_promise_request.dart';
 import 'package:promise_with_me_flutter/data/dto/promise/get_promises_request.dart';
 
 import 'package:promise_with_me_flutter/domain/entity/promise/promises_entity.dart';
 
 import '../../domain/repository/promise_repository.dart';
+import '../data_source/remote/promise_data_source.dart';
 
 class PromiseRepositoryImpl implements PromiseRepository {
   final PromiseDataSource _promiseDataSource;

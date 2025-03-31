@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:promise_with_me_flutter/data/data_source/auth_data_source.dart';
-import 'package:promise_with_me_flutter/data/data_source/promise_data_source.dart';
+import 'package:promise_with_me_flutter/data/data_source/remote/auth_data_source.dart';
 import 'package:promise_with_me_flutter/data/repository/auth_repository_impl.dart';
 import 'package:promise_with_me_flutter/data/repository/promise_repository_impl.dart';
 import 'package:promise_with_me_flutter/domain/repository/auth_repository.dart';
@@ -12,6 +11,8 @@ import 'package:promise_with_me_flutter/domain/use_case/promise/get_promises_use
 import 'package:promise_with_me_flutter/presentation/view_model/auth/auth_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/page_manager/page_index_cubit.dart';
+
+import '../data/data_source/remote/promise_data_source.dart';
 
 Future<List<BlocProvider>> di() async {
   // auth
