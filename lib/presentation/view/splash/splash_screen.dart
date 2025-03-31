@@ -6,6 +6,7 @@ import 'package:promise_with_me_flutter/core/componant/scaffold_widget.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_color.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_images.dart';
 import 'package:promise_with_me_flutter/core/util/navigators.dart';
+import 'package:promise_with_me_flutter/domain/entity/promise/day_of_week.dart';
 import 'package:promise_with_me_flutter/domain/entity/promise/promises_entity.dart';
 import 'package:promise_with_me_flutter/presentation/view/on_boarding/on_boarding_screen.dart';
 
@@ -28,7 +29,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
     context.read<PromiseBloc>().add(
       GetPromisesEvent(
-        getPromisesRequest: GetPromisesRequest(page: 0, dayOfWeek: []),
+        getPromisesRequest: GetPromisesRequest(
+          page: 0,
+          dayOfWeek: DayOfWeek(dayOfWeek: []),
+        ),
       ),
     );
   }

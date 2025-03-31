@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:promise_with_me_flutter/domain/entity/promise/day_of_week.dart';
 
 class DayOfWeekCubit extends Cubit<List<MapEntry<String, bool>>> {
   DayOfWeekCubit()
@@ -22,30 +23,13 @@ class DayOfWeekCubit extends Cubit<List<MapEntry<String, bool>>> {
     emit(updatedState);
   }
 
-  List<String> dayOfWeekAsRequest() {
+  DayOfWeek dayOfWeekAsRequest() {
     List<String> daysAsRequest = [];
 
     state.where((entry) => entry.value).forEach((value) {
-      switch (value.key) {
-        case '일':
-          daysAsRequest.add('SUN');
-        case '월':
-          daysAsRequest.add('MON');
-        case '화':
-          daysAsRequest.add('TUE');
-        case '수':
-          daysAsRequest.add('WED');
-        case '목':
-          daysAsRequest.add('THU');
-        case '금':
-          daysAsRequest.add('FRI');
-        case '토':
-          daysAsRequest.add('SAT');
-        default:
-          break;
-      }
+      daysAsRequest.add(value.key);
     });
 
-    return daysAsRequest;
+    return DayOfWeek(dayOfWeek: daysAsRequest);
   }
 }

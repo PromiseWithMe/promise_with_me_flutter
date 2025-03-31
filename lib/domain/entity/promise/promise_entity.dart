@@ -1,7 +1,9 @@
+import 'package:promise_with_me_flutter/domain/entity/promise/day_of_week.dart';
+
 class PromiseEntity {
   final String id;
   final String title;
-  final List<String> dayOfWeek;
+  final DayOfWeek dayOfWeek;
   final int promiseState;
   final DateTime createdAt;
 
@@ -26,40 +28,11 @@ class PromiseEntity {
     }
   }
 
-  String get getDayOfWeek {
-    if (dayOfWeek.isEmpty) {
-      return '오늘!!';
-    }
-
-    return dayOfWeek
-        .map((e) {
-          switch (e) {
-            case 'SUN':
-              return '일';
-            case 'MON':
-              return '월';
-            case 'TUE':
-              return '화';
-            case 'WED':
-              return '수';
-            case 'THU':
-              return '목';
-            case 'FRI':
-              return '금';
-            case 'SAT':
-              return '토';
-            default:
-              return '';
-          }
-        })
-        .join(', ');
-  }
-
   factory PromiseEntity.fromJson(Map<String, dynamic> json) {
     return PromiseEntity(
       id: json['id'],
       title: json['title'],
-      dayOfWeek: List<String>.from(json['dayOfWeek']),
+      dayOfWeek: DayOfWeek.fromJson(json['dayOfWeek']),
       promiseState: json['promiseState'],
       createdAt: DateTime.parse(json['createdAt']),
     );
