@@ -6,7 +6,7 @@ import 'package:promise_with_me_flutter/core/componant/toast_widget.dart';
 import 'package:promise_with_me_flutter/core/util/navigators.dart';
 import 'package:promise_with_me_flutter/data/dto/promise/create_promise_request.dart';
 import 'package:promise_with_me_flutter/presentation/view/home/widget/day_of_week_widget.dart';
-import 'package:promise_with_me_flutter/presentation/view_model/promise/add_day_of_week_cubit.dart';
+import 'package:promise_with_me_flutter/presentation/view_model/promise/add_promise_day_of_week_cubit.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_event.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -42,8 +42,11 @@ class _AddPromiseBottomSheetState extends State<AddPromiseBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddDayOfWeekCubit(),
-      child: BlocBuilder<AddDayOfWeekCubit, List<MapEntry<String, bool>>>(
+      create: (context) => AddPromiseDayOfWeekCubit(),
+      child: BlocBuilder<
+        AddPromiseDayOfWeekCubit,
+        List<MapEntry<String, bool>>
+      >(
         builder: (context, state) {
           return Container(
             decoration: BoxDecoration(
@@ -122,9 +125,9 @@ class _AddPromiseBottomSheetState extends State<AddPromiseBottomSheet> {
                     children: List.generate(state.length, (index) {
                       return DayOfWeekWidget(
                         onTap:
-                            () => context.read<AddDayOfWeekCubit>().toggleState(
-                              index,
-                            ),
+                            () => context
+                                .read<AddPromiseDayOfWeekCubit>()
+                                .toggleState(index),
                         index: index,
                         day: state[index],
                       );
@@ -143,7 +146,7 @@ class _AddPromiseBottomSheetState extends State<AddPromiseBottomSheet> {
                               title: titleController.text,
                               dayOfWeek:
                                   context
-                                      .read<AddDayOfWeekCubit>()
+                                      .read<AddPromiseDayOfWeekCubit>()
                                       .dayOfWeekAsRequest(),
                             ),
                           ),
