@@ -24,25 +24,23 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _promiseScrollController =
-        ScrollController()..addListener(() {
-          if (_promiseScrollController.position.pixels ==
-                  _promiseScrollController.position.maxScrollExtent &&
-              context.read<PromiseBloc>().state.value.promises.length % 10 ==
-                  0) {
-            context.read<PromiseBloc>().add(
-              GetPromisesEvent(
-                getPromisesRequest: GetPromisesRequest(
-                  page:
-                      context.read<PromiseBloc>().state.value.promises.length ~/
-                      10,
-                  dayOfWeek:
-                      context.read<PromiseFilterCubit>().dayOfWeekAsRequest(),
-                ),
-              ),
-            );
-          }
-        });
+    _promiseScrollController = ScrollController();
+    _promiseScrollController.addListener(promiseScrollListener);
+  }
+
+  void promiseScrollListener() {
+    if (_promiseScrollController.position.pixels ==
+            _promiseScrollController.position.maxScrollExtent &&
+        context.read<PromiseBloc>().state.value.promises.length % 10 == 0) {
+      context.read<PromiseBloc>().add(
+        GetPromisesEvent(
+          getPromisesRequest: GetPromisesRequest(
+            page: context.read<PromiseBloc>().state.value.promises.length ~/ 10,
+            dayOfWeek: context.read<PromiseFilterCubit>().dayOfWeekAsRequest(),
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -53,39 +51,53 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PromiseBloc, BlocState<PromisesEntity>>(
-      builder: (context, state) {
-        if (state.blocState == BlocStateEnum.empty ||
-            state.blocState == BlocStateEnum.loading) {
-          return Center(
-            child: CircularProgressIndicator(color: SysColor.green200),
-          );
-        } else if (state.blocState == BlocStateEnum.error) {
-          return Center(child: SysText.bodyMedium(text: state.error.message));
-        } else {
-          if (state.value.promises.isEmpty) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SysText.bodyMedium(text: "스스로에게 의미 있는 할 일을 만들어보세요."),
-                SysText.bodyMedium(text: "첫 번째 할 일을 기록해볼까요?"),
-              ],
-            );
-          } else {
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
-              child: ListView.builder(
-                controller: _promiseScrollController,
-                itemCount: state.value.promises.length,
-                itemBuilder: (context, index) {
-                  return PromiseWidget(promise: state.value.promises[index]);
-                },
-              ),
-            );
-          }
-        }
+    return BlocListener<PromiseBloc, BlocState<PromisesEntity>>(
+      listenWhen: (_, state) => state.blocState == BlocStateEnum.empty,
+      listener: (context, _) {
+        context.read<PromiseBloc>().add(
+          InitGetPromisesEvent(
+            getPromisesRequest: GetPromisesRequest(
+              page: 0,
+              dayOfWeek:
+                  context.read<PromiseFilterCubit>().dayOfWeekAsRequest(),
+            ),
+          ),
+        );
       },
+      child: BlocBuilder<PromiseBloc, BlocState<PromisesEntity>>(
+        builder: (context, state) {
+          if (state.blocState == BlocStateEnum.empty ||
+              state.blocState == BlocStateEnum.loading) {
+            return Center(
+              child: CircularProgressIndicator(color: SysColor.green200),
+            );
+          } else if (state.blocState == BlocStateEnum.error) {
+            return Center(child: SysText.bodyMedium(text: state.error.message));
+          } else {
+            if (state.value.promises.isEmpty) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SysText.bodyMedium(text: "스스로에게 의미 있는 할 일을 만들어보세요."),
+                  SysText.bodyMedium(text: "첫 번째 할 일을 기록해볼까요?"),
+                ],
+              );
+            } else {
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+                child: ListView.builder(
+                  controller: _promiseScrollController,
+                  itemCount: state.value.promises.length,
+                  itemBuilder: (context, index) {
+                    return PromiseWidget(promise: state.value.promises[index]);
+                  },
+                ),
+              );
+            }
+          }
+        },
+      ),
     );
   }
 }

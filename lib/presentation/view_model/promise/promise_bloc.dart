@@ -2,8 +2,6 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:promise_with_me_flutter/core/bloc/bloc_state.dart';
-import 'package:promise_with_me_flutter/data/dto/promise/get_promises_request.dart';
-import 'package:promise_with_me_flutter/domain/entity/promise/day_of_week.dart';
 import 'package:promise_with_me_flutter/domain/entity/promise/promises_entity.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/change_promise_state_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/create_promise_use_case.dart';
@@ -102,22 +100,10 @@ class PromiseBloc extends Bloc<PromiseEvent, BlocState<PromisesEntity>> {
         createPromiseRequest: event.createPromiseRequest,
       );
 
-      final PromisesEntity response = await _getPromisesUseCase.execute(
-        getPromisesRequest: GetPromisesRequest(
-          page: 0,
-          dayOfWeek: DayOfWeek(dayOfWeek: []),
-        ),
-      );
-      emit(Loaded(data: response));
+      emit(Empty());
     } on DioException catch (error) {
       if (error.requestOptions.extra['retry'] == true) {
-        final PromisesEntity response = await _getPromisesUseCase.execute(
-          getPromisesRequest: GetPromisesRequest(
-            page: 0,
-            dayOfWeek: DayOfWeek(dayOfWeek: []),
-          ),
-        );
-        emit(Loaded(data: response));
+        emit(Empty());
       } else {
         emit(Error(exception: error));
       }
@@ -135,22 +121,10 @@ class PromiseBloc extends Bloc<PromiseEvent, BlocState<PromisesEntity>> {
         promiseStateRequest: event.promiseStateRequest,
       );
 
-      final PromisesEntity response = await _getPromisesUseCase.execute(
-        getPromisesRequest: GetPromisesRequest(
-          page: 0,
-          dayOfWeek: DayOfWeek(dayOfWeek: []),
-        ),
-      );
-      emit(Loaded(data: response));
+      emit(Empty());
     } on DioException catch (error) {
       if (error.requestOptions.extra['retry'] == true) {
-        final PromisesEntity response = await _getPromisesUseCase.execute(
-          getPromisesRequest: GetPromisesRequest(
-            page: 0,
-            dayOfWeek: DayOfWeek(dayOfWeek: []),
-          ),
-        );
-        emit(Loaded(data: response));
+        emit(Empty());
       } else {
         emit(Error(exception: error));
       }

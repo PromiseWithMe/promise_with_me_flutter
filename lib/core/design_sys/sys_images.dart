@@ -20,4 +20,5 @@ class SysImages {
   static String symbolsError = 'assets/images/symbols_error.svg';
   static String trash = 'assets/images/trash.svg';
   static String dotsVertical = 'assets/images/dots_vertical.svg';
+  static String sad = 'assets/images/sad.svg';
 }
