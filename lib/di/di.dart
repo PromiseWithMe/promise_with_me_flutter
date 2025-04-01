@@ -11,6 +11,7 @@ import 'package:promise_with_me_flutter/domain/use_case/promise/get_promises_use
 import 'package:promise_with_me_flutter/presentation/view_model/auth/auth_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/page_manager/page_index_cubit.dart';
+import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_filter_cubit.dart';
 
 import '../data/data_source/remote/promise_data_source.dart';
 
@@ -40,6 +41,7 @@ Future<List<BlocProvider>> di() async {
   return [
     /// cubit
     BlocProvider<PageIndexCubit>(create: (context) => PageIndexCubit()),
+    BlocProvider<PromiseFilterCubit>(create: (context) => PromiseFilterCubit()),
 
     /// bloc
     BlocProvider<AuthBloc>(

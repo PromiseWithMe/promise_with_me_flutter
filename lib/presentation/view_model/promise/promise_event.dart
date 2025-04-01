@@ -9,6 +9,12 @@ class GetPromisesEvent extends PromiseEvent {
   GetPromisesEvent({required this.getPromisesRequest});
 }
 
+class InitGetPromisesEvent extends PromiseEvent {
+  final GetPromisesRequest getPromisesRequest;
+
+  InitGetPromisesEvent({required this.getPromisesRequest});
+}
+
 class CreatePromiseEvent extends PromiseEvent {
   final CreatePromiseRequest createPromiseRequest;
 

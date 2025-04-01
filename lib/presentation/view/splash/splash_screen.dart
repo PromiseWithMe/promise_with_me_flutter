@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     context.read<PromiseBloc>().add(
-      GetPromisesEvent(
+      InitGetPromisesEvent(
         getPromisesRequest: GetPromisesRequest(
           page: 0,
           dayOfWeek: DayOfWeek(dayOfWeek: []),

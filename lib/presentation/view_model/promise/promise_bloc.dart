@@ -18,12 +18,13 @@ class PromiseBloc extends Bloc<PromiseEvent, BlocState<PromisesEntity>> {
   }) : _getPromisesUseCase = getPromisesUseCase,
        _createPromiseUseCase = createPromiseUseCase,
        super(Empty()) {
+    on<InitGetPromisesEvent>(initPromisesEventHandler);
     on<GetPromisesEvent>(getPromisesEventHandler);
     on<CreatePromiseEvent>(createPromiseEventHandler);
   }
 
-  Future<void> getPromisesEventHandler(
-    GetPromisesEvent event,
+  Future<void> initPromisesEventHandler(
+    InitGetPromisesEvent event,
     Emitter<BlocState<PromisesEntity>> emit,
   ) async {
     emit(Loading());
@@ -39,6 +40,39 @@ class PromiseBloc extends Bloc<PromiseEvent, BlocState<PromisesEntity>> {
           getPromisesRequest: event.getPromisesRequest,
         );
         emit(Loaded(data: response));
+      } else {
+        emit(Error(exception: error));
+      }
+    }
+  }
+
+  Future<void> getPromisesEventHandler(
+    GetPromisesEvent event,
+    Emitter<BlocState<PromisesEntity>> emit,
+  ) async {
+    try {
+      final PromisesEntity response = await _getPromisesUseCase.execute(
+        getPromisesRequest: event.getPromisesRequest,
+      );
+      emit(
+        Loaded(
+          data: PromisesEntity(
+            promises: state.value.promises + response.promises,
+          ),
+        ),
+      );
+    } on DioException catch (error) {
+      if (error.requestOptions.extra['retry'] == true) {
+        final PromisesEntity response = await _getPromisesUseCase.execute(
+          getPromisesRequest: event.getPromisesRequest,
+        );
+        emit(
+          Loaded(
+            data: PromisesEntity(
+              promises: state.value.promises + response.promises,
+            ),
+          ),
+        );
       } else {
         emit(Error(exception: error));
       }

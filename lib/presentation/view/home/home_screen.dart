@@ -4,12 +4,52 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:promise_with_me_flutter/core/bloc/bloc_state.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_color.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_text.dart';
+import 'package:promise_with_me_flutter/data/dto/promise/get_promises_request.dart';
 import 'package:promise_with_me_flutter/domain/entity/promise/promises_entity.dart';
 import 'package:promise_with_me_flutter/presentation/view/home/widget/promise_widget.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_bloc.dart';
+import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_event.dart';
+import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_filter_cubit.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late final ScrollController _promiseScrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _promiseScrollController =
+        ScrollController()..addListener(() {
+          if (_promiseScrollController.position.pixels ==
+                  _promiseScrollController.position.maxScrollExtent &&
+              context.read<PromiseBloc>().state.value.promises.length % 10 ==
+                  0) {
+            context.read<PromiseBloc>().add(
+              GetPromisesEvent(
+                getPromisesRequest: GetPromisesRequest(
+                  page:
+                      context.read<PromiseBloc>().state.value.promises.length ~/
+                      10,
+                  dayOfWeek:
+                      context.read<PromiseFilterCubit>().dayOfWeekAsRequest(),
+                ),
+              ),
+            );
+          }
+        });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _promiseScrollController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +76,7 @@ class HomeScreen extends StatelessWidget {
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
               child: ListView.builder(
+                controller: _promiseScrollController,
                 itemCount: state.value.promises.length,
                 itemBuilder: (context, index) {
                   return PromiseWidget(promise: state.value.promises[index]);
