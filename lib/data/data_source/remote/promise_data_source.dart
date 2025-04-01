@@ -6,6 +6,18 @@ import '../../../core/util/dio.dart';
 import '../../dto/promise/change_promise_state_request.dart';
 
 class PromiseDataSource {
+  Future<void> createPromise({
+    required CreatePromiseRequest createPromiseRequest,
+  }) async {
+    try {
+      final request = await createPromiseRequest.toRequest();
+
+      await dio.post('/promise', data: request.data);
+    } catch (err) {
+      rethrow;
+    }
+  }
+
   Future<PromisesEntity> getPromises({
     required GetPromisesRequest getPromisesRequest,
   }) async {
@@ -19,18 +31,6 @@ class PromiseDataSource {
       );
 
       return PromisesEntity.fromJson(response.data);
-    } catch (err) {
-      rethrow;
-    }
-  }
-
-  Future<void> createPromise({
-    required CreatePromiseRequest createPromiseRequest,
-  }) async {
-    try {
-      final request = await createPromiseRequest.toRequest();
-
-      await dio.post('/promise', data: request.data);
     } catch (err) {
       rethrow;
     }
