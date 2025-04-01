@@ -8,6 +8,7 @@ import 'package:promise_with_me_flutter/domain/use_case/auth/login_use_case.dart
 import 'package:promise_with_me_flutter/domain/use_case/auth/register_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/change_promise_state_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/create_promise_use_case.dart';
+import 'package:promise_with_me_flutter/domain/use_case/promise/delete_promise_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/get_promises_use_case.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/auth/auth_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_bloc.dart';
@@ -38,6 +39,9 @@ Future<List<BlocProvider>> di() async {
   CreatePromiseUseCase createPromiseUseCase = CreatePromiseUseCase(
     promiseRepository: promiseRepository,
   );
+  DeletePromiseUseCase deletePromiseUseCase = DeletePromiseUseCase(
+    promiseRepository: promiseRepository,
+  );
   ChangePromiseStateUseCase changePromiseStateUseCase =
       ChangePromiseStateUseCase(promiseRepository: promiseRepository);
 
@@ -61,6 +65,7 @@ Future<List<BlocProvider>> di() async {
         return PromiseBloc(
           getPromisesUseCase: getPromisesUseCase,
           createPromiseUseCase: createPromiseUseCase,
+          deletePromiseUseCase: deletePromiseUseCase,
           changePromiseStateUseCase: changePromiseStateUseCase,
         );
       },

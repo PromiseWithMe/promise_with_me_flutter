@@ -5,6 +5,7 @@ import 'package:promise_with_me_flutter/core/design_sys/sys_images.dart';
 import 'package:promise_with_me_flutter/core/util/enum/promise_state_enum.dart';
 import 'package:promise_with_me_flutter/core/util/navigators.dart';
 import 'package:promise_with_me_flutter/data/dto/promise/change_promise_state_request.dart';
+import 'package:promise_with_me_flutter/data/dto/promise/delete_promise_request.dart';
 import 'package:promise_with_me_flutter/presentation/view/home/widget/promise_option_widget.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_event.dart';
@@ -115,7 +116,14 @@ class PromiseOptionBottomSheet extends StatelessWidget {
           SizedBox(height: 10.h),
 
           PromiseOptionWidget(
-            onTap: () {},
+            onTap: () {
+              context.read<PromiseBloc>().add(
+                DeletePromiseEvent(
+                  deletePromiseRequest: DeletePromiseRequest(id: promiseId),
+                ),
+              );
+              Navigators.pop(context);
+            },
             image: SysImages.trash,
             title: "삭제하기",
           ),

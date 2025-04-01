@@ -5,20 +5,24 @@ import 'package:promise_with_me_flutter/core/bloc/bloc_state.dart';
 import 'package:promise_with_me_flutter/domain/entity/promise/promises_entity.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/change_promise_state_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/create_promise_use_case.dart';
+import 'package:promise_with_me_flutter/domain/use_case/promise/delete_promise_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/get_promises_use_case.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_event.dart';
 
 class PromiseBloc extends Bloc<PromiseEvent, BlocState<PromisesEntity>> {
   final GetPromisesUseCase _getPromisesUseCase;
   final CreatePromiseUseCase _createPromiseUseCase;
+  final DeletePromiseUseCase _deletePromiseUseCase;
   final ChangePromiseStateUseCase _changePromiseStateUseCase;
 
   PromiseBloc({
     required GetPromisesUseCase getPromisesUseCase,
     required CreatePromiseUseCase createPromiseUseCase,
+    required DeletePromiseUseCase deletePromiseUseCase,
     required ChangePromiseStateUseCase changePromiseStateUseCase,
   }) : _getPromisesUseCase = getPromisesUseCase,
        _createPromiseUseCase = createPromiseUseCase,
+       _deletePromiseUseCase = deletePromiseUseCase,
        _changePromiseStateUseCase = changePromiseStateUseCase,
        super(Empty()) {
     on<InitGetPromisesEvent>(
@@ -27,6 +31,7 @@ class PromiseBloc extends Bloc<PromiseEvent, BlocState<PromisesEntity>> {
     );
     on<GetPromisesEvent>(getPromisesEventHandler, transformer: droppable());
     on<CreatePromiseEvent>(createPromiseEventHandler, transformer: droppable());
+    on<DeletePromiseEvent>(deletePromiseEventHandler, transformer: droppable());
     on<ChangePromiseStateEvent>(
       changePromiseStateEventHandler,
       transformer: droppable(),
@@ -98,6 +103,27 @@ class PromiseBloc extends Bloc<PromiseEvent, BlocState<PromisesEntity>> {
     try {
       await _createPromiseUseCase.execute(
         createPromiseRequest: event.createPromiseRequest,
+      );
+
+      emit(Empty());
+    } on DioException catch (error) {
+      if (error.requestOptions.extra['retry'] == true) {
+        emit(Empty());
+      } else {
+        emit(Error(exception: error));
+      }
+    }
+  }
+
+  Future<void> deletePromiseEventHandler(
+    DeletePromiseEvent event,
+    Emitter<BlocState<PromisesEntity>> emit,
+  ) async {
+    emit(Loading());
+
+    try {
+      await _deletePromiseUseCase.execute(
+        deletePromiseRequest: event.deletePromiseRequest,
       );
 
       emit(Empty());

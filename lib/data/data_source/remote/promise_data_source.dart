@@ -1,4 +1,5 @@
 import 'package:promise_with_me_flutter/data/dto/promise/create_promise_request.dart';
+import 'package:promise_with_me_flutter/data/dto/promise/delete_promise_request.dart';
 import 'package:promise_with_me_flutter/data/dto/promise/get_promises_request.dart';
 import 'package:promise_with_me_flutter/domain/entity/promise/promises_entity.dart';
 
@@ -31,6 +32,17 @@ class PromiseDataSource {
       );
 
       return PromisesEntity.fromJson(response.data);
+    } catch (err) {
+      rethrow;
+    }
+  }
+
+  Future<void> deletePromises({
+    required DeletePromiseRequest deletePromiseRequest,
+  }) async {
+    try {
+      final request = await deletePromiseRequest.toRequest();
+      await dio.delete('/promise/${request.id}');
     } catch (err) {
       rethrow;
     }
