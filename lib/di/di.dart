@@ -6,6 +6,7 @@ import 'package:promise_with_me_flutter/domain/repository/auth_repository.dart';
 import 'package:promise_with_me_flutter/domain/repository/promise_repository.dart';
 import 'package:promise_with_me_flutter/domain/use_case/auth/login_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/auth/register_use_case.dart';
+import 'package:promise_with_me_flutter/domain/use_case/promise/change_promise_state_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/create_promise_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/get_promises_use_case.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/auth/auth_bloc.dart';
@@ -37,6 +38,8 @@ Future<List<BlocProvider>> di() async {
   CreatePromiseUseCase createPromiseUseCase = CreatePromiseUseCase(
     promiseRepository: promiseRepository,
   );
+  ChangePromiseStateUseCase changePromiseStateUseCase =
+      ChangePromiseStateUseCase(promiseRepository: promiseRepository);
 
   return [
     /// cubit
@@ -58,6 +61,7 @@ Future<List<BlocProvider>> di() async {
         return PromiseBloc(
           getPromisesUseCase: getPromisesUseCase,
           createPromiseUseCase: createPromiseUseCase,
+          changePromiseStateUseCase: changePromiseStateUseCase,
         );
       },
     ),

@@ -1,5 +1,6 @@
 import 'package:promise_with_me_flutter/data/dto/promise/create_promise_request.dart';
 import 'package:promise_with_me_flutter/data/dto/promise/get_promises_request.dart';
+import 'package:promise_with_me_flutter/data/dto/promise/change_promise_state_request.dart';
 
 import 'package:promise_with_me_flutter/domain/entity/promise/promises_entity.dart';
 
@@ -27,6 +28,15 @@ class PromiseRepositoryImpl implements PromiseRepository {
   }) async {
     return await _promiseDataSource.createPromise(
       createPromiseRequest: createPromiseRequest,
+    );
+  }
+
+  @override
+  Future<void> changePromiseState({
+    required ChangePromiseStateRequest promiseStateRequest,
+  }) async {
+    return await _promiseDataSource.changePromiseState(
+      promiseStateRequest: promiseStateRequest,
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:promise_with_me_flutter/data/dto/promise/get_promises_request.da
 import 'package:promise_with_me_flutter/domain/entity/promise/promises_entity.dart';
 
 import '../../../core/util/dio.dart';
+import '../../dto/promise/change_promise_state_request.dart';
 
 class PromiseDataSource {
   Future<PromisesEntity> getPromises({
@@ -30,6 +31,18 @@ class PromiseDataSource {
       final request = await createPromiseRequest.toRequest();
 
       await dio.post('/promise', data: request.data);
+    } catch (err) {
+      rethrow;
+    }
+  }
+
+  Future<void> changePromiseState({
+    required ChangePromiseStateRequest promiseStateRequest,
+  }) async {
+    try {
+      final request = await promiseStateRequest.toRequest();
+
+      await dio.patch('/promise/${request.id}/state', data: request.data);
     } catch (err) {
       rethrow;
     }
