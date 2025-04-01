@@ -1,3 +1,4 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:promise_with_me_flutter/core/bloc/bloc_state.dart';
@@ -18,9 +19,12 @@ class PromiseBloc extends Bloc<PromiseEvent, BlocState<PromisesEntity>> {
   }) : _getPromisesUseCase = getPromisesUseCase,
        _createPromiseUseCase = createPromiseUseCase,
        super(Empty()) {
-    on<InitGetPromisesEvent>(initPromisesEventHandler);
-    on<GetPromisesEvent>(getPromisesEventHandler);
-    on<CreatePromiseEvent>(createPromiseEventHandler);
+    on<InitGetPromisesEvent>(
+      initPromisesEventHandler,
+      transformer: droppable(),
+    );
+    on<GetPromisesEvent>(getPromisesEventHandler, transformer: droppable());
+    on<CreatePromiseEvent>(createPromiseEventHandler, transformer: droppable());
   }
 
   Future<void> initPromisesEventHandler(

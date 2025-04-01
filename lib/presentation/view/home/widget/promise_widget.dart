@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:promise_with_me_flutter/core/componant/image_widget.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_images.dart';
 import 'package:promise_with_me_flutter/domain/entity/promise/promise_entity.dart';
+import 'package:promise_with_me_flutter/presentation/view/home/bottom_sheet/promise_option_bottom_sheet.dart';
 
 import '../../../../core/design_sys/sys_color.dart';
 import '../../../../core/design_sys/sys_text.dart';
@@ -64,7 +65,22 @@ class PromiseWidget extends StatelessWidget {
 
               SizedBox(width: 12.w),
 
-              ImageWidget(image: SysImages.dotsVertical, imageWidth: 24.w),
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    useSafeArea: true,
+                    builder: (BuildContext context) {
+                      return PromiseOptionBottomSheet();
+                    },
+                  );
+                },
+                child: ImageWidget(
+                  image: SysImages.dotsVertical,
+                  imageWidth: 24.w,
+                ),
+              ),
             ],
           ),
         ],

@@ -11,8 +11,8 @@ import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_
 import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_event.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import '../../../core/design_sys/sys_color.dart';
-import '../../../core/design_sys/sys_text.dart';
+import '../../../../core/design_sys/sys_color.dart';
+import '../../../../core/design_sys/sys_text.dart';
 
 class AddPromiseBottomSheet extends StatefulWidget {
   const AddPromiseBottomSheet({super.key});
