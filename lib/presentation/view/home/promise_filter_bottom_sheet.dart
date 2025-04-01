@@ -22,6 +22,12 @@ class PromiseFilterBottomSheet extends StatefulWidget {
 
 class _PromiseFilterBottomSheetState extends State<PromiseFilterBottomSheet> {
   @override
+  void initState() {
+    super.initState();
+    context.read<PromiseFilterCubit>().init();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<PromiseFilterCubit, List<MapEntry<String, bool>>>(
       builder: (context, state) {
