@@ -7,21 +7,25 @@ import 'package:promise_with_me_flutter/domain/use_case/promise/change_promise_s
 import 'package:promise_with_me_flutter/domain/use_case/promise/create_promise_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/delete_promise_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/get_promises_use_case.dart';
+import 'package:promise_with_me_flutter/domain/use_case/promise/update_promise_use_case.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_event.dart';
 
 class PromiseBloc extends Bloc<PromiseEvent, BlocState<PromisesEntity>> {
   final GetPromisesUseCase _getPromisesUseCase;
   final CreatePromiseUseCase _createPromiseUseCase;
+  final UpdatePromiseUseCase _updatePromiseUseCase;
   final DeletePromiseUseCase _deletePromiseUseCase;
   final ChangePromiseStateUseCase _changePromiseStateUseCase;
 
   PromiseBloc({
     required GetPromisesUseCase getPromisesUseCase,
     required CreatePromiseUseCase createPromiseUseCase,
+    required UpdatePromiseUseCase updatePromiseUseCase,
     required DeletePromiseUseCase deletePromiseUseCase,
     required ChangePromiseStateUseCase changePromiseStateUseCase,
   }) : _getPromisesUseCase = getPromisesUseCase,
        _createPromiseUseCase = createPromiseUseCase,
+       _updatePromiseUseCase = updatePromiseUseCase,
        _deletePromiseUseCase = deletePromiseUseCase,
        _changePromiseStateUseCase = changePromiseStateUseCase,
        super(Empty()) {
@@ -31,6 +35,7 @@ class PromiseBloc extends Bloc<PromiseEvent, BlocState<PromisesEntity>> {
     );
     on<GetPromisesEvent>(getPromisesEventHandler, transformer: droppable());
     on<CreatePromiseEvent>(createPromiseEventHandler, transformer: droppable());
+    on<UpdatePromiseEvent>(updatePromiseEventHandler, transformer: droppable());
     on<DeletePromiseEvent>(deletePromiseEventHandler, transformer: droppable());
     on<ChangePromiseStateEvent>(
       changePromiseStateEventHandler,
@@ -103,6 +108,27 @@ class PromiseBloc extends Bloc<PromiseEvent, BlocState<PromisesEntity>> {
     try {
       await _createPromiseUseCase.execute(
         createPromiseRequest: event.createPromiseRequest,
+      );
+
+      emit(Empty());
+    } on DioException catch (error) {
+      if (error.requestOptions.extra['retry'] == true) {
+        emit(Empty());
+      } else {
+        emit(Error(exception: error));
+      }
+    }
+  }
+
+  Future<void> updatePromiseEventHandler(
+    UpdatePromiseEvent event,
+    Emitter<BlocState<PromisesEntity>> emit,
+  ) async {
+    emit(Loading());
+
+    try {
+      await _updatePromiseUseCase.execute(
+        updatePromiseRequest: event.updatePromiseRequest,
       );
 
       emit(Empty());

@@ -12,7 +12,7 @@ class DayOfWeek {
   }
 
   List<MapEntry<String, bool>> toListMapEntry(List<String> dayOfWeek) {
-    final listMapEntry = [
+    final List<MapEntry<String, bool>> listMapEntry = [
       MapEntry('일', false),
       MapEntry('월', false),
       MapEntry('화', false),
@@ -22,14 +22,12 @@ class DayOfWeek {
       MapEntry('토', false),
     ];
 
-    listMapEntry.map((entry) {
+    return listMapEntry.map((entry) {
       if (dayOfWeek.contains(entry.key)) {
         return MapEntry(entry.key, true);
       }
       return entry;
     }).toList();
-
-    return listMapEntry;
   }
 
   factory DayOfWeek.fromJson(List<dynamic> json) {

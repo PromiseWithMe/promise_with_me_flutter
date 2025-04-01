@@ -1,6 +1,7 @@
 import 'package:promise_with_me_flutter/data/dto/promise/create_promise_request.dart';
 import 'package:promise_with_me_flutter/data/dto/promise/delete_promise_request.dart';
 import 'package:promise_with_me_flutter/data/dto/promise/get_promises_request.dart';
+import 'package:promise_with_me_flutter/data/dto/promise/update_promise_request.dart';
 import 'package:promise_with_me_flutter/domain/entity/promise/promises_entity.dart';
 
 import '../../../core/util/dio.dart';
@@ -32,6 +33,17 @@ class PromiseDataSource {
       );
 
       return PromisesEntity.fromJson(response.data);
+    } catch (err) {
+      rethrow;
+    }
+  }
+
+  Future<void> updatePromise({
+    required UpdatePromiseRequest updatePromiseRequest,
+  }) async {
+    try {
+      final request = await updatePromiseRequest.toRequest();
+      await dio.patch('/promise/${request.id}', data: request.data);
     } catch (err) {
       rethrow;
     }

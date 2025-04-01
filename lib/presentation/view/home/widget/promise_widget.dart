@@ -72,10 +72,7 @@ class PromiseWidget extends StatelessWidget {
                     context: context,
                     useSafeArea: true,
                     builder: (BuildContext context) {
-                      return PromiseOptionBottomSheet(
-                        promiseId: promise.id,
-                        promiseState: promise.promiseState,
-                      );
+                      return PromiseOptionBottomSheet(promise: promise);
                     },
                   );
                 },

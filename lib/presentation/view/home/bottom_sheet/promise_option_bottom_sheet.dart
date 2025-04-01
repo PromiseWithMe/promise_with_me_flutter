@@ -6,19 +6,16 @@ import 'package:promise_with_me_flutter/core/util/enum/promise_state_enum.dart';
 import 'package:promise_with_me_flutter/core/util/navigators.dart';
 import 'package:promise_with_me_flutter/data/dto/promise/change_promise_state_request.dart';
 import 'package:promise_with_me_flutter/data/dto/promise/delete_promise_request.dart';
+import 'package:promise_with_me_flutter/domain/entity/promise/promise_entity.dart';
+import 'package:promise_with_me_flutter/presentation/view/home/bottom_sheet/update_promise_bottom_sheet.dart';
 import 'package:promise_with_me_flutter/presentation/view/home/widget/promise_option_widget.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_event.dart';
 
 class PromiseOptionBottomSheet extends StatelessWidget {
-  final String promiseId;
-  final PromiseState promiseState;
+  final PromiseEntity promise;
 
-  const PromiseOptionBottomSheet({
-    super.key,
-    required this.promiseId,
-    required this.promiseState,
-  });
+  const PromiseOptionBottomSheet({super.key, required this.promise});
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +26,13 @@ class PromiseOptionBottomSheet extends StatelessWidget {
         children: [
           Builder(
             builder: (context) {
-              if (promiseState == PromiseState.Completed) {
+              if (promise.promiseState == PromiseState.Completed) {
                 return PromiseOptionWidget(
                   onTap: () {
                     context.read<PromiseBloc>().add(
                       ChangePromiseStateEvent(
                         promiseStateRequest: ChangePromiseStateRequest(
-                          id: promiseId,
+                          id: promise.id,
                           state: PromiseState.NotCompleted,
                         ),
                       ),
@@ -51,7 +48,7 @@ class PromiseOptionBottomSheet extends StatelessWidget {
                     context.read<PromiseBloc>().add(
                       ChangePromiseStateEvent(
                         promiseStateRequest: ChangePromiseStateRequest(
-                          id: promiseId,
+                          id: promise.id,
                           state: PromiseState.Completed,
                         ),
                       ),
@@ -69,13 +66,13 @@ class PromiseOptionBottomSheet extends StatelessWidget {
 
           Builder(
             builder: (context) {
-              if (promiseState == PromiseState.Skip) {
+              if (promise.promiseState == PromiseState.Skip) {
                 return PromiseOptionWidget(
                   onTap: () {
                     context.read<PromiseBloc>().add(
                       ChangePromiseStateEvent(
                         promiseStateRequest: ChangePromiseStateRequest(
-                          id: promiseId,
+                          id: promise.id,
                           state: PromiseState.NotCompleted,
                         ),
                       ),
@@ -91,7 +88,7 @@ class PromiseOptionBottomSheet extends StatelessWidget {
                     context.read<PromiseBloc>().add(
                       ChangePromiseStateEvent(
                         promiseStateRequest: ChangePromiseStateRequest(
-                          id: promiseId,
+                          id: promise.id,
                           state: PromiseState.Skip,
                         ),
                       ),
@@ -108,7 +105,18 @@ class PromiseOptionBottomSheet extends StatelessWidget {
           SizedBox(height: 10.h),
 
           PromiseOptionWidget(
-            onTap: () {},
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return UpdatePromiseBottomSheet(
+                    id: promise.id,
+                    title: promise.title,
+                    dayOfWeek: promise.dayOfWeek,
+                  );
+                },
+              );
+            },
             image: SysImages.pencil,
             title: "수정하기",
           ),
@@ -119,7 +127,7 @@ class PromiseOptionBottomSheet extends StatelessWidget {
             onTap: () {
               context.read<PromiseBloc>().add(
                 DeletePromiseEvent(
-                  deletePromiseRequest: DeletePromiseRequest(id: promiseId),
+                  deletePromiseRequest: DeletePromiseRequest(id: promise.id),
                 ),
               );
               Navigators.pop(context);
