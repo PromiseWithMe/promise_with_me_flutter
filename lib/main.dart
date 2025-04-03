@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:promise_with_me_flutter/core/util/dio.dart';
 import 'package:promise_with_me_flutter/presentation/view/splash/splash_screen.dart';
 
+import 'core/util/socket.dart';
 import 'di/di.dart';
 
 void main() async {
@@ -12,6 +13,7 @@ void main() async {
   await dotenv.load(fileName: ".env");
 
   dioInit();
+  connectSocketIo();
 
   runApp(MyApp(blocProvider: await di()));
 }

@@ -1,17 +1,27 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:promise_with_me_flutter/data/data_source/remote/auth_data_source.dart';
+import 'package:promise_with_me_flutter/data/data_source/remote/chat_data_source.dart';
 import 'package:promise_with_me_flutter/data/repository/auth_repository_impl.dart';
+import 'package:promise_with_me_flutter/data/repository/chat_repository_impl.dart';
 import 'package:promise_with_me_flutter/data/repository/promise_repository_impl.dart';
 import 'package:promise_with_me_flutter/domain/repository/auth_repository.dart';
+import 'package:promise_with_me_flutter/domain/repository/chat_repository.dart';
 import 'package:promise_with_me_flutter/domain/repository/promise_repository.dart';
 import 'package:promise_with_me_flutter/domain/use_case/auth/login_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/auth/register_use_case.dart';
+import 'package:promise_with_me_flutter/domain/use_case/chat/connect_chat_use_case.dart';
+import 'package:promise_with_me_flutter/domain/use_case/chat/dispose_chat_use_case.dart';
+import 'package:promise_with_me_flutter/domain/use_case/chat/get_chats_use_case.dart';
+import 'package:promise_with_me_flutter/domain/use_case/chat/well_promise_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/change_promise_state_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/create_promise_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/delete_promise_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/get_promises_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/update_promise_use_case.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/auth/auth_bloc.dart';
+import 'package:promise_with_me_flutter/presentation/view_model/chat/chats_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/page_manager/page_index_cubit.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_filter_cubit.dart';
@@ -49,6 +59,24 @@ Future<List<BlocProvider>> di() async {
   ChangePromiseStateUseCase changePromiseStateUseCase =
       ChangePromiseStateUseCase(promiseRepository: promiseRepository);
 
+  // chat
+  ChatDataSource chatDataSource = ChatDataSource();
+  ChatRepository chatRepository = ChatRepositoryImpl(
+    chatDataSource: chatDataSource,
+  );
+  ConnectChatUseCase connectChatUseCase = ConnectChatUseCase(
+    chatRepository: chatRepository,
+  );
+  DisposeChatUseCase disposeChatUseCase = DisposeChatUseCase(
+    chatRepository: chatRepository,
+  );
+  WellPromiseUseCase wellPromiseUseCase = WellPromiseUseCase(
+    chatRepository: chatRepository,
+  );
+  GetChatsUseCase getChatsUseCase = GetChatsUseCase(
+    chatRepository: chatRepository,
+  );
+
   return [
     /// cubit
     BlocProvider<PageIndexCubit>(create: (context) => PageIndexCubit()),
@@ -72,6 +100,17 @@ Future<List<BlocProvider>> di() async {
           updatePromiseUseCase: updatePromiseUseCase,
           deletePromiseUseCase: deletePromiseUseCase,
           changePromiseStateUseCase: changePromiseStateUseCase,
+        );
+      },
+    ),
+
+    BlocProvider<ChatsBloc>(
+      create: (context) {
+        return ChatsBloc(
+          getChatsUseCase: getChatsUseCase,
+          connectChatUseCase: connectChatUseCase,
+          disposeChatUseCase: disposeChatUseCase,
+          wellPromiseUseCase: wellPromiseUseCase,
         );
       },
     ),
