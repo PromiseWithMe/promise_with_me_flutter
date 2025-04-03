@@ -8,7 +8,5 @@ class DisposeChatUseCase {
 
   Stream<String> get chat => _chatRepository.chat;
 
-  Future<void> execute() async {
-    await _chatRepository.disposeChat();
-  }
+  Future<void> execute() async => await _chatRepository.disposeChat();
 }

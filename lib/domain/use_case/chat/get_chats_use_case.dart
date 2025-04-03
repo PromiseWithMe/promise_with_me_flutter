@@ -11,7 +11,5 @@ class GetChatsUseCase {
 
   Future<ChatsEntity> execute({
     required GetChatsRequest getChatsRequest,
-  }) async {
-    return _chatRepository.getChats(getChatsRequest: getChatsRequest);
-  }
+  }) async => _chatRepository.getChats(getChatsRequest: getChatsRequest);
 }

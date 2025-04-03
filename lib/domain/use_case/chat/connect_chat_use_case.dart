@@ -12,9 +12,7 @@ class ConnectChatUseCase {
 
   Future<void> execute({
     required StreamController<String> chatStreamController,
-  }) async {
-    await _chatRepository.connectChat(
-      chatStreamController: chatStreamController,
-    );
-  }
+  }) async => await _chatRepository.connectChat(
+    chatStreamController: chatStreamController,
+  );
 }

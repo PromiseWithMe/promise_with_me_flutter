@@ -10,7 +10,8 @@ class WellPromiseUseCase {
 
   Stream<String> get chat => _chatRepository.chat;
 
-  Future<void> execute({required WellPromiseRequest wellPromiseRequest}) async {
-    await _chatRepository.wellPromise(wellPromiseRequest: wellPromiseRequest);
-  }
+  Future<void> execute({
+    required WellPromiseRequest wellPromiseRequest,
+  }) async =>
+      await _chatRepository.wellPromise(wellPromiseRequest: wellPromiseRequest);
 }

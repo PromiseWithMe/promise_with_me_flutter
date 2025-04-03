@@ -16,6 +16,15 @@ class PromiseRepositoryImpl implements PromiseRepository {
     : _promiseDataSource = promiseDataSource;
 
   @override
+  Future<void> createPromise({
+    required CreatePromiseRequest createPromiseRequest,
+  }) async {
+    await _promiseDataSource.createPromise(
+      createPromiseRequest: createPromiseRequest,
+    );
+  }
+
+  @override
   Future<PromisesEntity> getPromises({
     required GetPromisesRequest getPromisesRequest,
   }) async {
@@ -25,20 +34,11 @@ class PromiseRepositoryImpl implements PromiseRepository {
   }
 
   @override
-  Future<void> createPromise({
-    required CreatePromiseRequest createPromiseRequest,
+  Future<void> updatePromiseState({
+    required UpdatePromiseRequest updatePromiseRequest,
   }) async {
-    return await _promiseDataSource.createPromise(
-      createPromiseRequest: createPromiseRequest,
-    );
-  }
-
-  @override
-  Future<void> changePromiseState({
-    required ChangePromiseStateRequest promiseStateRequest,
-  }) async {
-    return await _promiseDataSource.changePromiseState(
-      promiseStateRequest: promiseStateRequest,
+    await _promiseDataSource.updatePromise(
+      updatePromiseRequest: updatePromiseRequest,
     );
   }
 
@@ -46,17 +46,17 @@ class PromiseRepositoryImpl implements PromiseRepository {
   Future<void> deletePromiseState({
     required DeletePromiseRequest deletePromiseRequest,
   }) async {
-    return await _promiseDataSource.deletePromises(
+    await _promiseDataSource.deletePromises(
       deletePromiseRequest: deletePromiseRequest,
     );
   }
 
   @override
-  Future<void> updatePromiseState({
-    required UpdatePromiseRequest updatePromiseRequest,
+  Future<void> changePromiseState({
+    required ChangePromiseStateRequest promiseStateRequest,
   }) async {
-    return await _promiseDataSource.updatePromise(
-      updatePromiseRequest: updatePromiseRequest,
+    await _promiseDataSource.changePromiseState(
+      promiseStateRequest: promiseStateRequest,
     );
   }
 }
