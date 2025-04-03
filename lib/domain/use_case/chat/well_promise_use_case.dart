@@ -8,8 +8,6 @@ class WellPromiseUseCase {
   const WellPromiseUseCase({required ChatRepository chatRepository})
     : _chatRepository = chatRepository;
 
-  Stream<String> get chat => _chatRepository.chat;
-
   Future<void> execute({
     required WellPromiseRequest wellPromiseRequest,
   }) async =>

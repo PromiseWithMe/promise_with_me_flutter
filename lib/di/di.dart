@@ -3,11 +3,14 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:promise_with_me_flutter/data/data_source/remote/auth_data_source.dart';
 import 'package:promise_with_me_flutter/data/data_source/remote/chat_data_source.dart';
+import 'package:promise_with_me_flutter/data/data_source/remote/diary_data_source.dart';
 import 'package:promise_with_me_flutter/data/repository/auth_repository_impl.dart';
 import 'package:promise_with_me_flutter/data/repository/chat_repository_impl.dart';
+import 'package:promise_with_me_flutter/data/repository/diary_repository_impl.dart';
 import 'package:promise_with_me_flutter/data/repository/promise_repository_impl.dart';
 import 'package:promise_with_me_flutter/domain/repository/auth_repository.dart';
 import 'package:promise_with_me_flutter/domain/repository/chat_repository.dart';
+import 'package:promise_with_me_flutter/domain/repository/diary_repository.dart';
 import 'package:promise_with_me_flutter/domain/repository/promise_repository.dart';
 import 'package:promise_with_me_flutter/domain/use_case/auth/login_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/auth/register_use_case.dart';
@@ -15,6 +18,8 @@ import 'package:promise_with_me_flutter/domain/use_case/chat/connect_chat_use_ca
 import 'package:promise_with_me_flutter/domain/use_case/chat/dispose_chat_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/chat/get_chats_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/chat/well_promise_use_case.dart';
+import 'package:promise_with_me_flutter/domain/use_case/diary/connect_diary_use_case.dart';
+import 'package:promise_with_me_flutter/domain/use_case/diary/set_diary_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/change_promise_state_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/create_promise_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/delete_promise_use_case.dart';
@@ -22,11 +27,13 @@ import 'package:promise_with_me_flutter/domain/use_case/promise/get_promises_use
 import 'package:promise_with_me_flutter/domain/use_case/promise/update_promise_use_case.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/auth/auth_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/chat/chats_bloc.dart';
+import 'package:promise_with_me_flutter/presentation/view_model/diary/diary_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/page_manager/page_index_cubit.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_filter_cubit.dart';
 
 import '../data/data_source/remote/promise_data_source.dart';
+import '../presentation/view_model/splash/splash_state_cubit.dart';
 
 Future<List<BlocProvider>> di() async {
   // auth
@@ -77,10 +84,23 @@ Future<List<BlocProvider>> di() async {
     chatRepository: chatRepository,
   );
 
+  // diary
+  DiaryDataSource diaryDataSource = DiaryDataSource();
+  DiaryRepository diaryRepository = DiaryRepositoryImpl(
+    diaryDataSource: diaryDataSource,
+  );
+  GetDiaryUseCase connectDiaryUseCase = GetDiaryUseCase(
+    diaryRepository: diaryRepository,
+  );
+  SetDiaryUseCase setDiaryUseCase = SetDiaryUseCase(
+    diaryRepository: diaryRepository,
+  );
+
   return [
     /// cubit
     BlocProvider<PageIndexCubit>(create: (context) => PageIndexCubit()),
     BlocProvider<PromiseFilterCubit>(create: (context) => PromiseFilterCubit()),
+    BlocProvider<SplashStateCubit>(create: (context) => SplashStateCubit()),
 
     /// bloc
     BlocProvider<AuthBloc>(
@@ -111,6 +131,15 @@ Future<List<BlocProvider>> di() async {
           connectChatUseCase: connectChatUseCase,
           disposeChatUseCase: disposeChatUseCase,
           wellPromiseUseCase: wellPromiseUseCase,
+        );
+      },
+    ),
+
+    BlocProvider<DiaryBloc>(
+      create: (context) {
+        return DiaryBloc(
+          connectDiaryUseCase: connectDiaryUseCase,
+          setDiaryUseCase: setDiaryUseCase,
         );
       },
     ),

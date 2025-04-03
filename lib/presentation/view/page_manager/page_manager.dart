@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:promise_with_me_flutter/core/componant/scaffold_widget.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_color.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_images.dart';
+import 'package:promise_with_me_flutter/presentation/view/diary/diary_app_bar.dart';
+import 'package:promise_with_me_flutter/presentation/view/diary/diary_screen.dart';
 import 'package:promise_with_me_flutter/presentation/view/page_manager/widget/bottom_navigation_item.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/page_manager/page_index_cubit.dart';
 
@@ -39,13 +41,13 @@ class _PageManagerState extends State<PageManager> {
   Widget build(BuildContext context) {
     final List<Widget> appBarData = [
       const HomeAppBar(),
-      Container(color: Colors.red),
+      const DiaryAppBar(),
       Container(color: Colors.red),
     ];
 
     final List<Widget> screenData = [
       const HomeScreen(),
-      Container(color: Colors.red),
+      const DiaryScreen(),
       Container(color: Colors.red),
     ];
 

@@ -19,8 +19,6 @@ class ChatDataSource {
     _chatStreamController = chatStreamController;
 
     socket.connect();
-    socket.off('wellPromiseResponse');
-    socket.off('exception');
 
     socket.on('wellPromiseResponse', (data) {
       if (!_chatStreamController.isClosed) {

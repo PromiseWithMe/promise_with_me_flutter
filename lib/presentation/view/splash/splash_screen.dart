@@ -9,6 +9,9 @@ import 'package:promise_with_me_flutter/core/util/navigators.dart';
 import 'package:promise_with_me_flutter/domain/entity/promise/day_of_week.dart';
 import 'package:promise_with_me_flutter/domain/entity/promise/promises_entity.dart';
 import 'package:promise_with_me_flutter/presentation/view/on_boarding/on_boarding_screen.dart';
+import 'package:promise_with_me_flutter/presentation/view_model/diary/diary_bloc.dart';
+import 'package:promise_with_me_flutter/presentation/view_model/diary/diary_event.dart';
+import 'package:promise_with_me_flutter/presentation/view_model/splash/splash_state_cubit.dart';
 
 import '../../../data/dto/promise/get_promises_request.dart';
 import '../../view_model/promise/promise_bloc.dart';
@@ -35,20 +38,43 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
     );
+
+    context.read<DiaryBloc>().add(GetDiaryEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocListener<PromiseBloc, BlocState<PromisesEntity>>(
-          listenWhen: (_, state) => state.blocState == BlocStateEnum.loaded,
+        BlocListener<SplashStateCubit, bool>(
+          listenWhen: (_, state) => state,
           listener: (context, _) {
             Navigators.teleporting(context, PageManager());
           },
         ),
 
         BlocListener<PromiseBloc, BlocState<PromisesEntity>>(
+          listenWhen: (_, state) => state.blocState == BlocStateEnum.loaded,
+          listener: (context, _) {
+            context.read<SplashStateCubit>().promiseLoad();
+          },
+        ),
+
+        BlocListener<PromiseBloc, BlocState<PromisesEntity>>(
+          listenWhen: (_, state) => state.blocState == BlocStateEnum.error,
+          listener: (context, _) {
+            Navigators.teleporting(context, OnBoardingScreen());
+          },
+        ),
+
+        BlocListener<DiaryBloc, BlocState<String>>(
+          listenWhen: (_, state) => state.blocState == BlocStateEnum.loaded,
+          listener: (context, _) {
+            context.read<SplashStateCubit>().diaryLoad();
+          },
+        ),
+
+        BlocListener<DiaryBloc, BlocState<String>>(
           listenWhen: (_, state) => state.blocState == BlocStateEnum.error,
           listener: (context, _) {
             Navigators.teleporting(context, OnBoardingScreen());
