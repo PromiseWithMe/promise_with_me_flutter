@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:promise_with_me_flutter/core/util/dio.dart';
 
 class DiaryDataSource {
-  Future<String> getDiary() async {
+  Future<String?> getDiary() async {
     try {
       final response = await dio.get('/diary');
       return response.data;

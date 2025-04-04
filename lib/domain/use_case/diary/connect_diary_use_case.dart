@@ -8,5 +8,5 @@ class GetDiaryUseCase {
   const GetDiaryUseCase({required DiaryRepository diaryRepository})
     : _diaryRepository = diaryRepository;
 
-  Future<String> execute() async => await _diaryRepository.getDiary();
+  Future<String?> execute() async => await _diaryRepository.getDiary();
 }

@@ -11,7 +11,7 @@ class DiaryRepositoryImpl implements DiaryRepository {
     : _diaryDataSource = diaryDataSource;
 
   @override
-  Future<String> getDiary() async {
+  Future<String?> getDiary() async {
     return _diaryDataSource.getDiary();
   }
 

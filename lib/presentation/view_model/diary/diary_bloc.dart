@@ -26,7 +26,7 @@ class DiaryBloc extends Bloc<DiaryEvent, BlocState<String>> {
     emit(Loading());
 
     try {
-      final data = await _getDiaryUseCase.execute();
+      final String data = await _getDiaryUseCase.execute() ?? '';
       emit(Loaded(data: data));
     } on DioException catch (e) {
       emit(Error(exception: e));
@@ -41,7 +41,7 @@ class DiaryBloc extends Bloc<DiaryEvent, BlocState<String>> {
 
     try {
       await _setDiaryUseCase.execute(data: event.data);
-      final data = await _getDiaryUseCase.execute();
+      final String data = await _getDiaryUseCase.execute() ?? '';
 
       emit(Loaded(data: data));
     } on DioException catch (e) {
