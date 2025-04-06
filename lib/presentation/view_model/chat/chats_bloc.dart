@@ -94,18 +94,22 @@ class ChatsBloc extends Bloc<ChatsEvent, BlocState<ChatsEntity>> {
     AddLocalChatEvent event,
     Emitter<BlocState<ChatsEntity>> emit,
   ) async {
-    state.value.addChat(
-      chat: ChatEntity(id: 0, role: 1, content: event.content),
-    );
-    state.value.addChat(chat: ChatEntity(id: 1, role: 2, content: ""));
-    emit(Loaded(data: state.value));
+    final currentChats = List<ChatEntity>.from(state.value.chats);
 
-    final lastIndex = state.value.chats.length - 1;
+    currentChats.add(ChatEntity(id: 0, role: 1, content: event.content));
+    currentChats.add(ChatEntity(id: 1, role: 2, content: ""));
+
+    final lastIndex = currentChats.length - 1;
     await for (var data in _connectChatUseCase.chat) {
-      state.value.chats[lastIndex] = state.value.chats[lastIndex].copyWith(
-        content: state.value.chats[lastIndex].content + data,
+      currentChats[lastIndex] = currentChats[lastIndex].copyWith(
+        content: currentChats[lastIndex].content + data,
       );
-      emit(Loaded(data: state.value));
+
+      emit(
+        Loaded(
+          data: ChatsEntity(chats: state.value.copyWith(chats: currentChats)),
+        ),
+      );
     }
   }
 }

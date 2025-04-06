@@ -10,6 +10,10 @@ class ChatsEntity {
     return chats;
   }
 
+  List<ChatEntity> copyWith({List<ChatEntity>? chats}) {
+    return chats ?? this.chats;
+  }
+
   factory ChatsEntity.fromJson(Map<String, dynamic> json) {
     return ChatsEntity(
       chats:
