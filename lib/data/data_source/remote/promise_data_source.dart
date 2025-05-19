@@ -65,7 +65,7 @@ class PromiseDataSource {
   }) async {
     try {
       final request = await promiseStateRequest.toRequest();
-      await dio.patch('/promise/${request.id}/state', data: request.data);
+      await dio.patch('/promise/state/${request.id}', data: request.data);
     } catch (err) {
       rethrow;
     }
