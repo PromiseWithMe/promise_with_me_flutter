@@ -2,18 +2,22 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:promise_with_me_flutter/data/data_source/remote/auth_data_source.dart';
+import 'package:promise_with_me_flutter/data/data_source/remote/calendar_data_source.dart';
 import 'package:promise_with_me_flutter/data/data_source/remote/chat_data_source.dart';
 import 'package:promise_with_me_flutter/data/data_source/remote/diary_data_source.dart';
 import 'package:promise_with_me_flutter/data/repository/auth_repository_impl.dart';
+import 'package:promise_with_me_flutter/data/repository/calendar_repository_impl.dart';
 import 'package:promise_with_me_flutter/data/repository/chat_repository_impl.dart';
 import 'package:promise_with_me_flutter/data/repository/diary_repository_impl.dart';
 import 'package:promise_with_me_flutter/data/repository/promise_repository_impl.dart';
 import 'package:promise_with_me_flutter/domain/repository/auth_repository.dart';
+import 'package:promise_with_me_flutter/domain/repository/calendar_repository.dart';
 import 'package:promise_with_me_flutter/domain/repository/chat_repository.dart';
 import 'package:promise_with_me_flutter/domain/repository/diary_repository.dart';
 import 'package:promise_with_me_flutter/domain/repository/promise_repository.dart';
 import 'package:promise_with_me_flutter/domain/use_case/auth/login_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/auth/register_use_case.dart';
+import 'package:promise_with_me_flutter/domain/use_case/calendar/get_calendar_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/chat/connect_chat_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/chat/dispose_chat_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/chat/get_chats_use_case.dart';
@@ -26,6 +30,7 @@ import 'package:promise_with_me_flutter/domain/use_case/promise/delete_promise_u
 import 'package:promise_with_me_flutter/domain/use_case/promise/get_promises_use_case.dart';
 import 'package:promise_with_me_flutter/domain/use_case/promise/update_promise_use_case.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/auth/auth_bloc.dart';
+import 'package:promise_with_me_flutter/presentation/view_model/calendar/calendar_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/chat/chats_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/diary/diary_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/promise/promise_bloc.dart';
@@ -96,6 +101,15 @@ Future<List<BlocProvider>> di() async {
     diaryRepository: diaryRepository,
   );
 
+  // calendar
+  CalendarDataSource calendarDataSource = CalendarDataSource();
+  CalendarRepository calendarRepository = CalendarRepositoryImpl(
+    calendarDataSource: calendarDataSource,
+  );
+  GetCalendarUseCase getCalendarUseCase = GetCalendarUseCase(
+    calendarRepository: calendarRepository,
+  );
+
   return [
     /// cubit
     BlocProvider<PageIndexCubit>(create: (context) => PageIndexCubit()),
@@ -141,6 +155,12 @@ Future<List<BlocProvider>> di() async {
           connectDiaryUseCase: connectDiaryUseCase,
           setDiaryUseCase: setDiaryUseCase,
         );
+      },
+    ),
+
+    BlocProvider<CalendarBloc>(
+      create: (context) {
+        return CalendarBloc(getCalendarUseCase: getCalendarUseCase);
       },
     ),
   ];

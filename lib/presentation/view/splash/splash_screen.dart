@@ -6,14 +6,18 @@ import 'package:promise_with_me_flutter/core/componant/scaffold_widget.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_color.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_images.dart';
 import 'package:promise_with_me_flutter/core/util/navigators.dart';
+import 'package:promise_with_me_flutter/data/dto/calendar/get_calendar_request.dart';
+import 'package:promise_with_me_flutter/domain/entity/calendar/calendars_entity.dart';
 import 'package:promise_with_me_flutter/domain/entity/promise/day_of_week.dart';
 import 'package:promise_with_me_flutter/domain/entity/promise/promises_entity.dart';
 import 'package:promise_with_me_flutter/presentation/view/on_boarding/on_boarding_screen.dart';
+import 'package:promise_with_me_flutter/presentation/view_model/calendar/calendar_event.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/diary/diary_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/diary/diary_event.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/splash/splash_state_cubit.dart';
 
 import '../../../data/dto/promise/get_promises_request.dart';
+import '../../view_model/calendar/calendar_bloc.dart';
 import '../../view_model/promise/promise_bloc.dart';
 import '../../view_model/promise/promise_event.dart';
 import '../page_manager/page_manager.dart';
@@ -40,6 +44,15 @@ class _SplashScreenState extends State<SplashScreen> {
     );
 
     context.read<DiaryBloc>().add(GetDiaryEvent());
+
+    context.read<CalendarBloc>().add(
+      GetCalendarEvent(
+        getCalendarRequest: GetCalendarRequest(
+          year: DateTime.now().year,
+          month: DateTime.now().month,
+        ),
+      ),
+    );
   }
 
   @override
@@ -75,6 +88,20 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
 
         BlocListener<DiaryBloc, BlocState<String>>(
+          listenWhen: (_, state) => state.blocState == BlocStateEnum.error,
+          listener: (context, _) {
+            Navigators.teleporting(context, OnBoardingScreen());
+          },
+        ),
+
+        BlocListener<CalendarBloc, BlocState<CalendarsEntity>>(
+          listenWhen: (_, state) => state.blocState == BlocStateEnum.loaded,
+          listener: (context, _) {
+            context.read<SplashStateCubit>().calendarLoad();
+          },
+        ),
+
+        BlocListener<CalendarBloc, BlocState<CalendarsEntity>>(
           listenWhen: (_, state) => state.blocState == BlocStateEnum.error,
           listener: (context, _) {
             Navigators.teleporting(context, OnBoardingScreen());

@@ -4,12 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:promise_with_me_flutter/core/componant/scaffold_widget.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_color.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_images.dart';
+import 'package:promise_with_me_flutter/presentation/view/calendar/calendar_app_bar.dart';
 import 'package:promise_with_me_flutter/presentation/view/diary/diary_app_bar.dart';
 import 'package:promise_with_me_flutter/presentation/view/diary/diary_screen.dart';
 import 'package:promise_with_me_flutter/presentation/view/page_manager/widget/bottom_navigation_item.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/page_manager/page_index_cubit.dart';
 
 import '../../../core/componant/app_bar_widget.dart';
+import '../calendar/calendar_screen.dart';
 import '../home/home_screen.dart';
 import '../home/home_app_bar.dart';
 
@@ -42,13 +44,13 @@ class _PageManagerState extends State<PageManager> {
     final List<Widget> appBarData = [
       const HomeAppBar(),
       const DiaryAppBar(),
-      Container(color: Colors.red),
+      const CalendarAppBar(),
     ];
 
     final List<Widget> screenData = [
       const HomeScreen(),
       const DiaryScreen(),
-      Container(color: Colors.red),
+      const CalendarScreen(),
     ];
 
     return BlocBuilder<PageIndexCubit, int>(
