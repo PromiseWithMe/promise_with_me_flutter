@@ -5,8 +5,10 @@ import 'package:promise_with_me_flutter/core/bloc/bloc_state.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_color.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_images.dart';
 import 'package:promise_with_me_flutter/core/design_sys/sys_text.dart';
+import 'package:promise_with_me_flutter/core/util/navigators.dart';
 import 'package:promise_with_me_flutter/data/dto/calendar/get_calendar_request.dart';
 import 'package:promise_with_me_flutter/domain/entity/calendar/calendars_entity.dart';
+import 'package:promise_with_me_flutter/presentation/view/diary/diray_detail_screen.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/calendar/calendar_bloc.dart';
 import 'package:promise_with_me_flutter/presentation/view_model/calendar/calendar_event.dart';
 import '../../../core/componant/image_widget.dart';
@@ -270,9 +272,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             return Padding(
                               padding: EdgeInsets.only(bottom: 10.h),
                               child: GestureDetector(
-                                onTap: () {
-                                  debugPrint("일기 내용 보러가기 클릭됨");
-                                },
+                                onTap:
+                                    () => Navigators.push(
+                                      context,
+                                      DiaryDetailScreen(
+                                        diary: calendar.diary,
+                                        currentDate: DateTime.parse(
+                                          calendar.date,
+                                        ),
+                                      ),
+                                    ),
                                 child: Container(
                                   alignment: Alignment.center,
                                   padding: EdgeInsets.symmetric(vertical: 14.h),
