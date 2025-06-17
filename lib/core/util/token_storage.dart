@@ -28,11 +28,24 @@ class TokenStorage {
     );
   }
 
+  static Future<void> writeDeviceToken({required String deviceToken}) async {
+    debugPrint("[DEVICE TOKEN] : $deviceToken");
+
+    return await _tokenStorage.write(
+      key: EnvValues.deviceTokenStorage,
+      value: deviceToken,
+    );
+  }
+
   static Future<String?> findAccessToken() async {
     return await _tokenStorage.read(key: EnvValues.accessTokenStorage);
   }
 
   static Future<String?> findRefreshToken() async {
     return await _tokenStorage.read(key: EnvValues.refreshTokenStorage);
+  }
+
+  static Future<String?> findDeviceToken() async {
+    return await _tokenStorage.read(key: EnvValues.deviceTokenStorage);
   }
 }

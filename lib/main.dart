@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:promise_with_me_flutter/core/util/dio.dart';
 import 'package:promise_with_me_flutter/presentation/view/splash/splash_screen.dart';
+import 'package:promise_with_me_flutter/firebase_messaging_service.dart';
 
 import 'core/util/socket.dart';
 import 'di/di.dart';
@@ -11,6 +13,13 @@ import 'di/di.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
+  
+  // Firebase 초기화
+  await Firebase.initializeApp();
+  
+  // FCM 서비스 초기화
+  final messagingService = FirebaseMessagingService();
+  await messagingService.initialize();
 
   dioInit();
   connectSocketIo();
