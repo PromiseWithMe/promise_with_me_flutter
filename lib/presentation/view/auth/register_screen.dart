@@ -20,6 +20,7 @@ import '../../../core/design_sys/sys_color.dart';
 import '../../../core/design_sys/sys_images.dart';
 import '../../../core/design_sys/sys_text.dart';
 import '../../../core/util/navigators.dart';
+import '../../../core/util/token_storage.dart';
 import '../../view_model/auth/auth_event.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -178,19 +179,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ButtonWidget(
                     isLoading: authState.blocState == BlocStateEnum.loading,
                     loadingIndicatorColor: SysColor.white,
-                    onTap: () {
+                    onTap: () async {
                       if (!nicknameErrorState &&
                           !emailErrorState &&
                           !passwordErrorState) {
-                        context.read<AuthBloc>().add(
-                          RegisterEvent(
-                            registerRequest: RegisterRequest(
-                              nickname: _nicknameController.text,
-                              email: _emailController.text,
-                              password: _passwordController.text,
+                        final deviceToken =
+                            await TokenStorage.findDeviceToken();
+                        if (context.mounted) {
+                          context.read<AuthBloc>().add(
+                            RegisterEvent(
+                              registerRequest: RegisterRequest(
+                                nickname: _nicknameController.text,
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                                deviceToken: deviceToken ?? "",
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        }
                       }
                     },
                     color: SysColor.green200,

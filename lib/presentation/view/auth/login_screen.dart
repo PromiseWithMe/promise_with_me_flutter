@@ -20,6 +20,7 @@ import 'package:promise_with_me_flutter/presentation/view/splash/splash_screen.d
 import 'package:promise_with_me_flutter/presentation/view_model/auth/auth_bloc.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../core/util/token_storage.dart';
 import '../../view_model/auth/auth_event.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -129,16 +130,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   ButtonWidget(
                     isLoading: authState.blocState == BlocStateEnum.loading,
                     loadingIndicatorColor: SysColor.white,
-                    onTap: () {
+                    onTap: () async {
                       if (!emailErrorState) {
-                        context.read<AuthBloc>().add(
-                          LoginEvent(
-                            loginRequest: LoginRequest(
-                              email: _emailController.text,
-                              password: _passwordController.text,
+                        final deviceToken =
+                            await TokenStorage.findDeviceToken();
+                        if (context.mounted) {
+                          context.read<AuthBloc>().add(
+                            LoginEvent(
+                              loginRequest: LoginRequest(
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                                deviceToken: deviceToken ?? "",
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        }
                       }
                     },
                     color: SysColor.green200,
